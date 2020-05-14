@@ -32,6 +32,7 @@ apt -y install qemu-user
 apt -y install qemu-system
 apt -y install gdb-multiarch
 apt -y install volatility
+apt -y install rlwrap
 apt -y install libgmp3-dev libmpc-dev
 
 echo "pip..."
