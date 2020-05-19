@@ -154,19 +154,9 @@ sudo chmod -R 755 /opt/Tools
 
 echo "ropstar..."
 cd
-mkdir tools
-cd tools
-git clone https://github.com/JonathanSalwan/ROPgadget.git
-git clone https://github.com/niklasb/libc-database.git
-cd libc-database
-./get
-cd ..
-git clone https://github.com/xct/ropstar.git
-cd ropstar
-pip3 install -r requirements.txt
-cd ..
 git clone https://github.com/BlWasp/setupRopstar.git
 cd setupRopstar
+chmod +x ./setup.sh
 ./setup.sh
 
 
