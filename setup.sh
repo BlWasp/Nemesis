@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Enter the user who will use this installation"
+read username
+
 echo "Environement installation"
 sudo apt -y install golang
 sudo apt -y install gem
@@ -98,10 +101,16 @@ sudo git clone https://github.com/arthaud/git-dumper.git
 cd ..
 echo "Crypto..."
 sudo mkdir Crypto
-sudo cd Crypto
+cd Crypto
 sudo git clone https://github.com/Ganapati/RsaCtfTool.git
 cd RsaCtfTool
 pip3 install -r "requirements.txt"
+cd ..
+sudo wget https://github.com/nccgroup/featherduster/archive/v0.2.zip -O feather.zip
+unzip feather.zip
+rm feather.zip
+cd featherduster-0.2
+python setup.py install
 cd ..
 
 cd ..
@@ -149,6 +158,7 @@ sudo unzip XORSearch.zip
 sudo rm XORSearch.zip
 cd ..
 
+sudo chown -R $username:$username /opt/Tools
 sudo chmod -R 755 /opt/Tools
 
 
