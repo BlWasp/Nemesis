@@ -7,7 +7,13 @@ echo "Environement installation"
 sudo apt -y install golang
 sudo apt -y install gem
 sudo apt -y install python-pip
+python -m pip install --upgrade pip
 sudo apt -y install python3-pip
+python3 -m pip install --upgrade pip
+
+echo "Update all pip packets"
+for x in $(pip list -o --format=columns | sed -n '3,$p' | cut -d' ' -f1); do pip install $x --upgrade; done
+for x in $(pip3 list -o --format=columns | sed -n '3,$p' | cut -d' ' -f1); do pip3 install $x --upgrade; done
 
 
 echo "Software installation"
