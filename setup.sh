@@ -81,6 +81,7 @@ sudo git clone https://github.com/PowerShellMafia/PowerSploit.git
 sudo wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_linux_amd64 -O kerbrute
 sudo chmod 755 kerbrute
 sudo git clone https://github.com/CBHue/PyFuscation.git
+sudo git clone https://github.com/giuliano108/SeBackupPrivilege.git
 
 cd ..
 echo "Linux..."
