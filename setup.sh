@@ -41,23 +41,26 @@ sudo apt -y install gdb-multiarch
 sudo apt -y install volatility
 sudo apt -y install rlwrap
 sudo apt -y install libgmp3-dev libmpc-dev
+#sudo apt install sshuttle iptables
 
 echo "pip..."
-pip install pwntools
-pip3 install pwntools
-pip install ldap3
-pip install dnspython
-pip install impacket
-pip install bloodhound
-pip install aclpwn
-pip install capstone
-pip install filebytes
-pip3 install keystone-engine
-pip install ropper
-pip3 install z3-solver
+python -m pip install pwntools
+python3 -m pip install pwntools
+python -m pip install ldap3
+python -m pip install dnspython
+python -m pip install impacket
+python -m pip install bloodhound
+python -m pip install aclpwn
+python -m pip install capstone
+python -m pip install filebytes
+python3 -m pip install keystone-engine
+python -m pip install ropper
+python3 -m pip install z3-solver
+sudo python -m pip install sshuttle
 
 echo "gem..."
-gem install evil-winrm
+sudo gem install evil-winrm
+sudo gem install one_gadget
 
 echo "go..."
 go get github.com/ffuf/ffuf
@@ -76,12 +79,18 @@ cd Windows
 sudo mkdir SharpHound
 sudo wget https://github.com/BloodHoundAD/BloodHound/raw/master/Ingestors/SharpHound.exe -O SharpHound/SharpHound.exe
 sudo wget https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Ingestors/SharpHound.ps1 -O SharpHound/SharpHound.ps1
+sudo wget https://github.com/byt3bl33d3r/CrackMapExec/releases/download/v5.0.2dev/cme-ubuntu-latest.zip -O cme.zip
+sudo unzip cme.zip
+sudo rm cme.zip
 sudo git clone https://github.com/ropnop/windapsearch.git
-sudo git clone https://github.com/PowerShellMafia/PowerSploit.git
+sudo git clone https://github.com/PowerShellMafia/PowerSploit.git -b dev
 sudo wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_linux_amd64 -O kerbrute
 sudo chmod 755 kerbrute
 sudo git clone https://github.com/CBHue/PyFuscation.git
 sudo git clone https://github.com/giuliano108/SeBackupPrivilege.git
+sudo git clone https://github.com/Genetic-Malware/Ebowla.git
+sudo wget https://github.com/ohpe/juicy-potato/releases/download/v0.1/JuicyPotato.exe -O JuicyPotato.exe
+sudo git clone https://github.com/Kevin-Robertson/Powermad.git
 
 cd ..
 echo "Linux..."
@@ -90,6 +99,7 @@ cd Linux
 sudo wget https://jitpack.io/com/github/frohoff/ysoserial/master-SNAPSHOT/ysoserial-master-SNAPSHOT.jar -O yso.jar
 sudo wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy32 -O pspy32
 sudo wget https://github.com/java-decompiler/jd-gui/releases/download/v1.6.6/jd-gui-1.6.6.jar -O jd-gui.jar
+sudo git clone https://github.com/mxrch/snmp-shell.git
 
 cd ..
 echo "Web..."
@@ -104,6 +114,7 @@ sudo git clone https://github.com/AonCyberLabs/PadBuster.git
 sudo git clone https://github.com/ticarpi/jwt_tool
 pip3 install pycryptodomex
 sudo git clone https://github.com/arthaud/git-dumper.git
+sudo git clone https://github.com/mxrch/webwrap.git
 
 cd ..
 echo "Crypto..."
