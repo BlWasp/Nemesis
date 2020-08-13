@@ -91,6 +91,9 @@ sudo git clone https://github.com/giuliano108/SeBackupPrivilege.git
 sudo git clone https://github.com/Genetic-Malware/Ebowla.git
 sudo wget https://github.com/ohpe/juicy-potato/releases/download/v0.1/JuicyPotato.exe -O JuicyPotato.exe
 sudo git clone https://github.com/Kevin-Robertson/Powermad.git
+sudo wget https://gist.githubusercontent.com/3xocyte/cfaf8a34f76569a8251bde65fe69dccc/raw/7c7f09ea46eff4ede636f69c00c6dfef0541cd14/dementor.py -O dementor.py
+sudo chmod 755 dementor.py
+sudo git clone https://github.com/evilmog/ntlmv1-multi.git
 
 cd ..
 echo "Linux..."
@@ -159,6 +162,7 @@ cd ..
 
 
 cd ..
+sudo git clone https://github.com/RUB-NDS/PRET.git
 sudo mkdir Chisel
 cd Chisel
 sudo wget https://github.com/jpillora/chisel/releases/download/v1.4.0/chisel_1.4.0_windows_386.gz -O chiselWin.gz
