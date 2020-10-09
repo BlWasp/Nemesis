@@ -41,6 +41,7 @@ sudo apt -y install gdb-multiarch
 sudo apt -y install volatility
 sudo apt -y install rlwrap
 sudo apt -y install libgmp3-dev libmpc-dev
+sudo apt -y install seahorse
 #sudo apt install sshuttle iptables
 
 echo "pip..."
@@ -94,6 +95,8 @@ sudo git clone https://github.com/Kevin-Robertson/Powermad.git
 sudo wget https://gist.githubusercontent.com/3xocyte/cfaf8a34f76569a8251bde65fe69dccc/raw/7c7f09ea46eff4ede636f69c00c6dfef0541cd14/dementor.py -O dementor.py
 sudo chmod 755 dementor.py
 sudo git clone https://github.com/evilmog/ntlmv1-multi.git
+sudo git clone https://github.com/411Hall/JAWS.git
+sudo git clone https://github.com/Greenwolf/Spray.git
 
 cd ..
 echo "Linux..."
@@ -118,6 +121,8 @@ sudo git clone https://github.com/ticarpi/jwt_tool
 pip3 install pycryptodomex
 sudo git clone https://github.com/arthaud/git-dumper.git
 sudo git clone https://github.com/mxrch/webwrap.git
+sudo git clone https://github.com/epinna/tplmap.git
+sudo git clone https://github.com/cnotin/SplunkWhisperer2.git
 
 cd ..
 echo "Crypto..."
@@ -162,6 +167,7 @@ cd ..
 
 
 cd ..
+echo "General tools..."
 sudo git clone https://github.com/RUB-NDS/PRET.git
 sudo mkdir Chisel
 cd Chisel
@@ -179,6 +185,16 @@ sudo wget http://didierstevens.com/files/software/XORSearch_V1_11_3.zip -O XORSe
 sudo unzip XORSearch.zip
 sudo rm XORSearch.zip
 cd ..
+sudo git clone https://github.com/xct/xc.git
+cd xc
+go get golang.org/x/sys/windows
+go get golang.org/x/text/encoding/unicode
+go get github.com/hashicorp/yamux
+go get github.com/ropnop/go-clr
+go build
+make
+cd ..
+
 
 sudo chown -R $username:$username /opt/Tools
 sudo chmod -R 755 /opt/Tools
