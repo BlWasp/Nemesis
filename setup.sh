@@ -114,7 +114,7 @@ sudo mkdir Web
 cd Web
 sudo git clone https://github.com/WhiteWinterWolf/wwwolf-php-webshell.git
 sudo git clone https://github.com/robertdavidgraham/masscan
-sudo cd masscan
+cd masscan
 sudo make -j
 cd ..
 sudo git clone https://github.com/AonCyberLabs/PadBuster.git
@@ -134,10 +134,10 @@ cd RsaCtfTool
 pip3 install -r "requirements.txt"
 cd ..
 sudo wget https://github.com/nccgroup/featherduster/archive/v0.2.zip -O feather.zip
-unzip feather.zip
+sudo unzip feather.zip
 rm feather.zip
 cd featherduster-0.2
-python setup.py install
+sudo python3 setup.py install
 cd ..
 
 cd ..
@@ -192,8 +192,8 @@ go get golang.org/x/sys/windows
 go get golang.org/x/text/encoding/unicode
 go get github.com/hashicorp/yamux
 go get github.com/ropnop/go-clr
-go build
 make
+go build
 cd ..
 
 
