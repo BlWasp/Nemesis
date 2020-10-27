@@ -42,6 +42,7 @@ sudo apt -y install volatility
 sudo apt -y install rlwrap
 sudo apt -y install libgmp3-dev libmpc-dev
 sudo apt -y install seahorse
+sudo apt -y install powershell
 #sudo apt install sshuttle iptables
 
 echo "pip..."
