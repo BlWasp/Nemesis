@@ -20,7 +20,7 @@ for x in $(pip3 list -o --format=columns | sed -n '3,$p' | cut -d' ' -f1); do pi
 
 echo "Software installation"
 echo "apt..."
-#apt -y install crackmapexec
+sudo apt purge crackmapexec
 sudo apt -y install python-dev
 sudo apt -y install docker docker.io
 sudo apt -y install gdb
@@ -86,19 +86,22 @@ echo "Windows..."
 sudo mkdir Windows
 cd Windows
 sudo mkdir SharpHound
-sudo wget https://github.com/BloodHoundAD/BloodHound/raw/master/Ingestors/SharpHound.exe -O SharpHound/SharpHound.exe
-sudo wget https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Ingestors/SharpHound.ps1 -O SharpHound/SharpHound.ps1
-sudo wget https://github.com/byt3bl33d3r/CrackMapExec/releases/download/v5.0.2dev/cme-ubuntu-latest.zip -O cme.zip
+sudo wget https://github.com/BloodHoundAD/BloodHound/raw/master/Collectors/SharpHound.exe -O SharpHound/SharpHound.exe
+sudo wget https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/SharpHound.ps1 -O SharpHound/SharpHound.ps1
+curl -s https://api.github.com/repos/byt3bl33d3r/CrackMapExec/releases/latest |grep "browser_download_url.*cme-ubuntu.*zip" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O cme.zip
 sudo unzip cme.zip
 sudo rm cme.zip
 sudo git clone https://github.com/ropnop/windapsearch.git
 sudo git clone https://github.com/PowerShellMafia/PowerSploit.git -b dev
-sudo wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_linux_amd64 -O kerbrute
+curl -s https://api.github.com/repos/ropnop/kerbrute/releases/latest |grep "browser_download_url.*linux_amd64" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O kerbrute
 sudo chmod 755 kerbrute
 sudo git clone https://github.com/CBHue/PyFuscation.git
 sudo git clone https://github.com/giuliano108/SeBackupPrivilege.git
 sudo git clone https://github.com/Genetic-Malware/Ebowla.git
-sudo wget https://github.com/ohpe/juicy-potato/releases/download/v0.1/JuicyPotato.exe -O JuicyPotato.exe
+sudo mkdir Potato
+curl -s https://api.github.com/repos/ohpe/juicy-potato/releases/latest |grep "browser_download_url.*exe" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O Potato/JuicyPotato.exe
+sudo wget https://github.com/breenmachine/RottenPotatoNG/raw/master/RottenPotatoEXE/x64/Release/MSFRottenPotato.exe -O Potato/RottenPotato.exe
+sudo wget https://github.com/breenmachine/RottenPotatoNG/raw/master/RottenPotatoDLL/x64/Release/MSFRottenPotato.dll -O Potato/RottenPotato.dll
 sudo git clone https://github.com/Kevin-Robertson/Powermad.git
 sudo wget https://gist.githubusercontent.com/3xocyte/cfaf8a34f76569a8251bde65fe69dccc/raw/7c7f09ea46eff4ede636f69c00c6dfef0541cd14/dementor.py -O dementor.py
 sudo chmod 755 dementor.py
@@ -112,7 +115,7 @@ sudo mkdir Linux
 cd Linux
 sudo wget https://jitpack.io/com/github/frohoff/ysoserial/master-SNAPSHOT/ysoserial-master-SNAPSHOT.jar -O yso.jar
 sudo wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy32 -O pspy32
-sudo wget https://github.com/java-decompiler/jd-gui/releases/download/v1.6.6/jd-gui-1.6.6.jar -O jd-gui.jar
+curl -s https://api.github.com/repos/java-decompiler/jd-gui/releases/latest |grep "browser_download_url.*[0-9].jar" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O jd-gui.jar
 sudo git clone https://github.com/mxrch/snmp-shell.git
 
 cd ..
@@ -140,10 +143,8 @@ sudo git clone https://github.com/Ganapati/RsaCtfTool.git
 cd RsaCtfTool
 pip3 install -r "requirements.txt"
 cd ..
-sudo wget https://github.com/nccgroup/featherduster/archive/v0.2.zip -O feather.zip
-sudo unzip feather.zip
-rm feather.zip
-cd featherduster-0.2
+sudo git clone https://github.com/nccgroup/featherduster.git
+cd featherduster
 sudo python3 setup.py install
 cd ..
 
@@ -179,8 +180,8 @@ echo "General tools..."
 sudo git clone https://github.com/RUB-NDS/PRET.git
 sudo mkdir Chisel
 cd Chisel
-sudo wget https://github.com/jpillora/chisel/releases/download/v1.4.0/chisel_1.4.0_windows_386.gz -O chiselWin.gz
-sudo wget https://github.com/jpillora/chisel/releases/download/v1.4.0/chisel_1.4.0_linux_386.gz -O chiselLinux.gz
+curl -s https://api.github.com/repos/jpillora/chisel/releases/latest |grep "browser_download_url.*windows_amd64.gz" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O chiselWin.gz
+curl -s https://api.github.com/repos/jpillora/chisel/releases/latest |grep "browser_download_url.*linux_amd64.gz" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O chiselLinux.gz
 sudo gunzip -d chiselWin.gz
 sudo gunzip -d chiselLinux.gz
 sudo chmod 755 chiselLinux
