@@ -6,7 +6,9 @@ read username
 echo "Environement installation"
 sudo apt -y install golang
 sudo apt -y install gem
-sudo apt -y install python-pip
+#sudo apt -y install python-pip
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
 python -m pip install --upgrade pip
 sudo apt -y install python3-pip
 python3 -m pip install --upgrade pip
@@ -19,6 +21,7 @@ for x in $(pip3 list -o --format=columns | sed -n '3,$p' | cut -d' ' -f1); do pi
 echo "Software installation"
 echo "apt..."
 #apt -y install crackmapexec
+sudo apt -y install python-dev
 sudo apt -y install docker docker.io
 sudo apt -y install gdb
 sudo apt -y install gdbserver
@@ -49,6 +52,7 @@ sudo chsh -s /usr/bin/fish
 #sudo apt install sshuttle iptables
 
 echo "pip..."
+python -m pip install pycrypto
 python -m pip install pwntools
 python3 -m pip install pwntools
 python -m pip install ldap3
