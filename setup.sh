@@ -65,6 +65,7 @@ python -m pip install filebytes
 python3 -m pip install keystone-engine
 python -m pip install ropper
 python3 -m pip install z3-solver
+python3 -m pip install kerberoast
 sudo python -m pip install sshuttle
 
 echo "gem..."
