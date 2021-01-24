@@ -94,6 +94,7 @@ sudo unzip cme.zip
 sudo rm cme.zip
 sudo git clone https://github.com/ropnop/windapsearch.git
 sudo git clone https://github.com/PowerShellMafia/PowerSploit.git -b dev
+sudo git clone https://github.com/NetSPI/PowerUpSQL.git
 curl -s https://api.github.com/repos/ropnop/kerbrute/releases/latest |grep "browser_download_url.*linux_amd64" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O kerbrute
 sudo chmod 755 kerbrute
 sudo git clone https://github.com/CBHue/PyFuscation.git
@@ -109,6 +110,7 @@ sudo chmod 755 dementor.py
 sudo git clone https://github.com/evilmog/ntlmv1-multi.git
 sudo git clone https://github.com/411Hall/JAWS.git
 sudo git clone https://github.com/Greenwolf/Spray.git
+sudo git clone https://github.com/r3motecontrol/Ghostpack-CompiledBinaries.git
 
 cd ..
 echo "Linux..."
