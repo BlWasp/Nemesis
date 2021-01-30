@@ -112,7 +112,7 @@ sudo git clone https://github.com/411Hall/JAWS.git
 sudo git clone https://github.com/Greenwolf/Spray.git
 #Those two repos are very similar, but interesting to get everything
 sudo git clone https://github.com/r3motecontrol/Ghostpack-CompiledBinaries.git
-sudo git https://github.com/Flangvik/SharpCollection.git
+sudo git clone https://github.com/Flangvik/SharpCollection.git
 
 cd ..
 echo "Linux..."
