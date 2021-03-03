@@ -71,6 +71,7 @@ sudo python -m pip install sshuttle
 echo "gem..."
 sudo gem install evil-winrm
 sudo gem install one_gadget
+sudo gem install wpscan
 
 echo "go..."
 go get github.com/ffuf/ffuf
