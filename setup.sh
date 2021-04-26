@@ -46,6 +46,7 @@ sudo apt -y install rlwrap
 sudo apt -y install libgmp3-dev libmpc-dev
 sudo apt -y install seahorse
 sudo apt -y install powershell
+sudo apt -y install ewf-tools
 
 sudo apt -y install fish
 sudo chsh -s /usr/bin/fish
@@ -65,6 +66,7 @@ python -m pip install filebytes
 python3 -m pip install keystone-engine
 python -m pip install ropper
 python3 -m pip install z3-solver
+python3 -m pip install kerberos
 python3 -m pip install kerberoast
 sudo python -m pip install sshuttle
 
@@ -87,6 +89,7 @@ cd /opt/Tools
 echo "Windows..."
 sudo mkdir Windows
 cd Windows
+sudo git clone https://github.com/samratashok/nishang.git
 sudo mkdir SharpHound
 sudo wget https://github.com/BloodHoundAD/BloodHound/raw/master/Collectors/SharpHound.exe -O SharpHound/SharpHound.exe
 sudo wget https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/SharpHound.ps1 -O SharpHound/SharpHound.ps1
@@ -114,6 +117,7 @@ sudo git clone https://github.com/Greenwolf/Spray.git
 #Those two repos are very similar, but interesting to get everything
 sudo git clone https://github.com/r3motecontrol/Ghostpack-CompiledBinaries.git
 sudo git clone https://github.com/Flangvik/SharpCollection.git
+sudo wget https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20200918-fix/mimikatz_trunk.7z -O mimikatz.7z
 
 cd ..
 echo "Linux..."
@@ -178,6 +182,14 @@ sudo git clone https://github.com/sashs/ropper.git
 cd ropper
 sudo git submodule init
 sudo git submodule update
+cd ..
+
+
+cd ..
+echo "Forensics..."
+sudo mkdir Forensics
+cd Forensics
+sudo git clone https://github.com/volatilityfoundation/volatility.git
 cd ..
 
 
