@@ -47,6 +47,7 @@ sudo apt -y install libgmp3-dev libmpc-dev
 sudo apt -y install seahorse
 sudo apt -y install powershell
 sudo apt -y install ewf-tools
+sudo apt -y install squidclient
 
 sudo apt -y install fish
 sudo chsh -s /usr/bin/fish
@@ -108,6 +109,7 @@ sudo mkdir Potato
 curl -s https://api.github.com/repos/ohpe/juicy-potato/releases/latest |grep "browser_download_url.*exe" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O Potato/JuicyPotato.exe
 sudo wget https://github.com/breenmachine/RottenPotatoNG/raw/master/RottenPotatoEXE/x64/Release/MSFRottenPotato.exe -O Potato/RottenPotato.exe
 sudo wget https://github.com/breenmachine/RottenPotatoNG/raw/master/RottenPotatoDLL/x64/Release/MSFRottenPotato.dll -O Potato/RottenPotato.dll
+sudo wget https://github.com/itm4n/PrintSpoofer/releases/download/v1.0/PrintSpoofer64.exe -O PrintSpoofer64.exe
 sudo git clone https://github.com/Kevin-Robertson/Powermad.git
 sudo wget https://gist.githubusercontent.com/3xocyte/cfaf8a34f76569a8251bde65fe69dccc/raw/7c7f09ea46eff4ede636f69c00c6dfef0541cd14/dementor.py -O dementor.py
 sudo chmod 755 dementor.py
