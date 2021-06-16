@@ -85,11 +85,11 @@ go get github.com/OJ/gobuster
 
 echo "Scripts installation"
 sudo mkdir /opt/Tools
-cd /opt/Tools
+sudo mkdir /opt/Tools/Windows
+sudo mv Tools/Windows /opt/Tools/Windows/Others
 
 echo "Windows..."
-sudo mkdir Windows
-cd Windows
+cd /opt/Tools/Windows
 sudo git clone https://github.com/samratashok/nishang.git
 sudo mkdir SharpHound
 sudo wget https://github.com/BloodHoundAD/BloodHound/raw/master/Collectors/SharpHound.exe -O SharpHound/SharpHound.exe
