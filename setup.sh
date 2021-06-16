@@ -118,6 +118,7 @@ sudo git clone https://github.com/Greenwolf/Spray.git
 sudo git clone https://github.com/r3motecontrol/Ghostpack-CompiledBinaries.git
 sudo git clone https://github.com/Flangvik/SharpCollection.git
 sudo wget https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20200918-fix/mimikatz_trunk.7z -O mimikatz.7z
+sudo wget https://github.com/gentilkiwi/kekeo/releases/download/2.2.0-20200718/kekeo.zip -O kekeo.zip
 
 cd ..
 echo "Linux..."
