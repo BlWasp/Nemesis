@@ -48,6 +48,8 @@ sudo apt -y install seahorse
 sudo apt -y install powershell
 sudo apt -y install ewf-tools
 sudo apt -y install squidclient
+#Kerberos
+sudo apt install krb5-user libpam-krb5 libpam-ccreds
 
 sudo apt -y install fish
 sudo chsh -s /usr/bin/fish
@@ -121,6 +123,13 @@ sudo git clone https://github.com/r3motecontrol/Ghostpack-CompiledBinaries.git
 sudo git clone https://github.com/Flangvik/SharpCollection.git
 sudo wget https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20200918-fix/mimikatz_trunk.7z -O mimikatz.7z
 sudo wget https://github.com/gentilkiwi/kekeo/releases/download/2.2.0-20200718/kekeo.zip -O kekeo.zip
+#To get the last version of impacket
+pip3 uninstall impacket
+sudo git clone https://github.com/SecureAuthCorp/impacket.git
+cd impacket
+python3 -m pip install -r requirements.txt
+python3 -m pip install .
+cd..
 
 cd ..
 echo "Linux..."
@@ -207,6 +216,7 @@ sudo gunzip -d chiselWin.gz
 sudo gunzip -d chiselLinux.gz
 sudo chmod 755 chiselLinux
 cd ..
+sudo git clone https://github.com/iphelix/dnschef.git
 sudo git clone https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite.git
 sudo git clone https://github.com/andrew-d/static-binaries.git
 sudo mkdir XORSearch
