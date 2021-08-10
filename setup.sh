@@ -48,8 +48,8 @@ sudo apt -y install seahorse
 sudo apt -y install powershell
 sudo apt -y install ewf-tools
 sudo apt -y install squidclient
-#Kerberos
-sudo apt install krb5-user libpam-krb5 libpam-ccreds
+#Kerberos and NTLM
+sudo apt install krb5-user libpam-krb5 libpam-ccreds gss-ntlmssp
 
 sudo apt -y install fish
 sudo chsh -s /usr/bin/fish
