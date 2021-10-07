@@ -20,7 +20,7 @@ for x in $(pip3 list -o --format=columns | sed -n '3,$p' | cut -d' ' -f1); do pi
 
 echo "Software installation"
 echo "apt..."
-sudo apt purge crackmapexec
+#sudo apt purge crackmapexec
 sudo apt -y install python-dev
 sudo apt -y install docker docker.io
 sudo apt -y install gdb
@@ -96,9 +96,9 @@ sudo git clone https://github.com/samratashok/nishang.git
 sudo mkdir SharpHound
 sudo wget https://github.com/BloodHoundAD/BloodHound/raw/master/Collectors/SharpHound.exe -O SharpHound/SharpHound.exe
 sudo wget https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/SharpHound.ps1 -O SharpHound/SharpHound.ps1
-curl -s https://api.github.com/repos/byt3bl33d3r/CrackMapExec/releases/latest |grep "browser_download_url.*cme-ubuntu.*zip" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O cme.zip
-sudo unzip cme.zip
-sudo rm cme.zip
+#curl -s https://api.github.com/repos/byt3bl33d3r/CrackMapExec/releases/latest |grep "browser_download_url.*cme-ubuntu.*zip" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O cme.zip
+#sudo unzip cme.zip
+#sudo rm cme.zip
 sudo git clone https://github.com/ropnop/windapsearch.git
 sudo git clone https://github.com/PowerShellMafia/PowerSploit.git -b dev
 sudo git clone https://github.com/NetSPI/PowerUpSQL.git
@@ -218,7 +218,7 @@ sudo gunzip -d chiselLinux.gz
 sudo chmod 755 chiselLinux
 cd ..
 sudo git clone https://github.com/iphelix/dnschef.git
-sudo git clone https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite.git
+sudo git clone https://github.com/carlospolop/PEASS-ng.git
 sudo git clone https://github.com/andrew-d/static-binaries.git
 sudo mkdir XORSearch
 cd XORSearch
