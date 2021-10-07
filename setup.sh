@@ -7,7 +7,7 @@ echo "Environement installation"
 sudo apt -y install golang
 sudo apt -y install gem
 #sudo apt -y install python-pip
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
 python get-pip.py
 python -m pip install --upgrade pip
 sudo apt -y install python3-pip
@@ -48,8 +48,12 @@ sudo apt -y install seahorse
 sudo apt -y install powershell
 sudo apt -y install ewf-tools
 sudo apt -y install squidclient
+sudo apt -y install zstd
+sudo apt -y install libpq-dev
+sudo apt -y install libmariadb-dev-compat libmariadb-dev
+sudo apt -y install libcairo2-dev
 #Kerberos and NTLM
-sudo apt install krb5-user libpam-krb5 libpam-ccreds gss-ntlmssp
+sudo apt install -y libkrb5-dev krb5-user libpam-krb5 libpam-ccreds gss-ntlmssp
 
 sudo apt -y install fish
 sudo chsh -s /usr/bin/fish
@@ -130,7 +134,7 @@ sudo git clone https://github.com/SecureAuthCorp/impacket.git
 cd impacket
 python3 -m pip install -r requirements.txt
 python3 -m pip install .
-cd..
+cd ..
 
 cd ..
 echo "Linux..."
