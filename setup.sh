@@ -60,6 +60,7 @@ sudo chsh -s /usr/bin/fish
 #sudo apt install sshuttle iptables
 
 echo "pip..."
+python -m pip install --upgrade setuptools
 python -m pip install pycrypto
 python -m pip install pwntools
 python3 -m pip install pwntools
