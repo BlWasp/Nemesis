@@ -2,6 +2,7 @@
 
 echo "Enter the user who will use this installation"
 read username
+cd
 
 #Environment
 echo "CiBfX19fXyAgICAgICAgICAgXyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBfICAgICBfICAgICAgICAgICBfICAgICAgICBfIF8gICAgICAgXyAgIF8gICAgICAgICAgICAgCnwgIF9fX3wgICAgICAgICAoXykgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgfCAgIChfKSAgICAgICAgIHwgfCAgICAgIHwgfCB8ICAgICB8IHwgKF8pICAgICAgICAgICAgCnwgfF9fIF8gX19fXyAgIF9fXyBfIF9fIF9fXyAgXyBfXyAgIF9fXyBfIF9fIF9fXyAgIF9fXyBfIF9fIHwgfF8gICBfIF8gX18gIF9fX3wgfF8gX18gX3wgfCB8IF9fIF98IHxfIF8gIF9fXyAgXyBfXyAgCnwgIF9ffCAnXyBcIFwgLyAvIHwgJ19fLyBfIFx8ICdfIFwgLyBfIFwgJ18gYCBfIFwgLyBfIFwgJ18gXHwgX198IHwgfCAnXyBcLyBfX3wgX18vIF9gIHwgfCB8LyBfYCB8IF9ffCB8LyBfIFx8ICdfIFwgCnwgfF9ffCB8IHwgXCBWIC98IHwgfCB8IChfKSB8IHwgfCB8ICBfXy8gfCB8IHwgfCB8ICBfXy8gfCB8IHwgfF8gIHwgfCB8IHwgXF9fIFwgfHwgKF98IHwgfCB8IChffCB8IHxffCB8IChfKSB8IHwgfCB8ClxfX19fL198IHxffFxfLyB8X3xffCAgXF9fXy98X3wgfF98XF9fX3xffCB8X3wgfF98XF9fX3xffCB8X3xcX198IHxffF98IHxffF9fXy9cX19cX18sX3xffF98XF9fLF98XF9ffF98XF9fXy98X3wgfF98Cg==" |base64 -d
@@ -24,7 +25,7 @@ sleep 2
 #apt packages
 echo "ICAgICAgICAgICAgIF8gICAgICAgICAKICBfXyBfIF8gX18gfCB8XyAgICAgICAKIC8gX2AgfCAnXyBcfCBfX3wgICAgICAKfCAoX3wgfCB8XykgfCB8XyBfIF8gXyAKIFxfXyxffCAuX18vIFxfXyhffF98XykKICAgICAgfF98ICAgICAgICAgICAgICA=" |base64 -d
 sleep 2
-#sudo apt purge crackmapexec
+sudo apt -y purge crackmapexec
 sudo apt -y install python-dev
 sudo apt -y install docker docker.io
 sudo apt -y install gdb
@@ -56,6 +57,7 @@ sudo apt -y install zstd
 sudo apt -y install libpq-dev
 sudo apt -y install libmariadb-dev-compat libmariadb-dev
 sudo apt -y install libcairo2-dev
+sudo apt -y install osslsigncode
 #Kerberos and NTLM
 sudo apt install -y libkrb5-dev krb5-user libpam-krb5 libpam-ccreds gss-ntlmssp
 
@@ -103,6 +105,14 @@ echo "ICBfXyBfICBfX18gICAgICAgCiAvIF9gIHwvIF8gXCAgICAgIAp8IChffCB8IChfKSB8IF8gXy
 sleep 2
 go get github.com/ffuf/ffuf
 go get github.com/OJ/gobuster
+go get -u github.com/drk1wi/Modlishka
+cd $GOPATH/src/github.com/drk1wi/Modlishka/
+make
+cd
+#For ScarCrow
+go get github.com/fatih/color
+go get github.com/yeka/zip
+go get github.com/josephspurrier/goversioninfo
 
 #echo "docker http3..."
 #docker run -it --rm ymuski/curl-http3 curl -ILv https://10.10.10.186/ --http3
@@ -124,10 +134,13 @@ echo "Recon tools"
 sudo mkdir SharpHound
 sudo wget https://github.com/BloodHoundAD/BloodHound/raw/master/Collectors/SharpHound.exe -O SharpHound/SharpHound.exe
 sudo wget https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/SharpHound.ps1 -O SharpHound/SharpHound.ps1
-sudo git clone https://github.com/PowerShellMafia/PowerSploit.git -b dev
 sudo git clone https://github.com/ropnop/windapsearch.git
 sudo git clone https://github.com/411Hall/JAWS.git
 sudo git clone https://github.com/kaluche/bloodhound-quickwin.git
+curl -s https://api.github.com/repos/byt3bl33d3r/CrackMapExec/releases/latest |grep "browser_download_url.*cme-ubuntu.*zip" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O cme.zip
+sudo unzip cme.zip
+sudo rm cme.zip
+sudo git clone https://github.com/franc-pentest/ldeep.git
 
 echo "Brute Force tools"
 curl -s https://api.github.com/repos/ropnop/kerbrute/releases/latest |grep "browser_download_url.*linux_amd64" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O kerbrute
@@ -146,6 +159,7 @@ sudo mkdir Potato
 curl -s https://api.github.com/repos/ohpe/juicy-potato/releases/latest |grep "browser_download_url.*exe" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O Potato/JuicyPotato.exe
 sudo wget https://github.com/breenmachine/RottenPotatoNG/raw/master/RottenPotatoEXE/x64/Release/MSFRottenPotato.exe -O Potato/RottenPotato.exe
 sudo wget https://github.com/breenmachine/RottenPotatoNG/raw/master/RottenPotatoDLL/x64/Release/MSFRottenPotato.dll -O Potato/RottenPotato.dll
+#Not potato, but same goal
 sudo wget https://github.com/itm4n/PrintSpoofer/releases/download/v1.0/PrintSpoofer64.exe -O PrintSpoofer64.exe
 
 echo "Mimikatz"
@@ -168,10 +182,7 @@ cd ..
 echo "Obfuscation tools"
 sudo git clone https://github.com/CBHue/PyFuscation.git
 sudo git clone https://github.com/Genetic-Malware/Ebowla.git
-
-#curl -s https://api.github.com/repos/byt3bl33d3r/CrackMapExec/releases/latest |grep "browser_download_url.*cme-ubuntu.*zip" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O cme.zip
-#sudo unzip cme.zip
-#sudo rm cme.zip
+curl -s https://api.github.com/repos/optiv/ScareCrow/releases/latest |grep "browser_download_url.*linux_amd64" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O ScareCrow
 
 echo "Specific tools : SQL/SCCM/Backup"
 sudo git clone https://github.com/NetSPI/PowerUpSQL.git
@@ -181,11 +192,16 @@ sudo git clone https://github.com/giuliano108/SeBackupPrivilege.git
 echo "Azure"
 sudo git clone https://github.com/Gerenios/AADInternals.git
 
+echo "PowerShell tools compilation"
+sudo git clone https://github.com/PowerShellMafia/PowerSploit.git -b dev
+sudo git clone https://github.com/samratashok/nishang.git
+sudo git clone https://github.com/samratashok/ADModule.git
+sudo git clone https://github.com/Kevin-Robertson/Powermad.git
+
 #Those two repos are very similar, but interesting to get everything
-echo "Tools compilation"
+echo "C# tools compilation"
 sudo git clone https://github.com/r3motecontrol/Ghostpack-CompiledBinaries.git
 sudo git clone https://github.com/Flangvik/SharpCollection.git
-sudo git clone https://github.com/samratashok/nishang.git
 
 
 #Linux
