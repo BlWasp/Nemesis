@@ -25,8 +25,9 @@ sleep 2
 #apt packages
 echo "ICAgICAgICAgICAgIF8gICAgICAgICAKICBfXyBfIF8gX18gfCB8XyAgICAgICAKIC8gX2AgfCAnXyBcfCBfX3wgICAgICAKfCAoX3wgfCB8XykgfCB8XyBfIF8gXyAKIFxfXyxffCAuX18vIFxfXyhffF98XykKICAgICAgfF98ICAgICAgICAgICAgICA=" |base64 -d
 sleep 2
-sudo apt -y purge crackmapexec
-sudo apt -y install python-dev
+sudo apt -y install crackmapexec
+sudo apt -y install python2-dev
+sudo apt -y install python-dev-is-python3
 sudo apt -y install docker docker.io
 sudo apt -y install gdb
 sudo apt -y install gdbserver
@@ -46,7 +47,7 @@ sudo apt -y install qemu
 sudo apt -y install qemu-user
 sudo apt -y install qemu-system
 sudo apt -y install gdb-multiarch
-sudo apt -y install volatility
+#sudo apt -y install volatility
 sudo apt -y install rlwrap
 sudo apt -y install libgmp3-dev libmpc-dev
 sudo apt -y install seahorse
@@ -58,12 +59,17 @@ sudo apt -y install libpq-dev
 sudo apt -y install libmariadb-dev-compat libmariadb-dev
 sudo apt -y install libcairo2-dev
 sudo apt -y install osslsigncode
+sudo apt -y install sshuttle iptables
 #Kerberos and NTLM
 sudo apt install -y libkrb5-dev krb5-user libpam-krb5 libpam-ccreds gss-ntlmssp
-
+#Fish shell
 sudo apt -y install fish
 sudo chsh -s /usr/bin/fish
-sudo apt install sshuttle iptables
+#Sublime Text
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt-get update
+sudo apt-get install sublime-text
 
 #pip packets
 echo "ICAgICAgIF8gICAgICAgICAgICAKIF8gX18gKF8pXyBfXyAgICAgICAKfCAnXyBcfCB8ICdfIFwgICAgICAKfCB8XykgfCB8IHxfKSB8IF8gXyAKfCAuX18vfF98IC5fXyhffF98XykKfF98ICAgICB8X3wgICAgICAgICA=" |base64 -d
@@ -113,6 +119,8 @@ cd
 go get github.com/fatih/color
 go get github.com/yeka/zip
 go get github.com/josephspurrier/goversioninfo
+#For PEzor
+go get github.com/EgeBalci/sgn
 
 #echo "docker http3..."
 #docker run -it --rm ymuski/curl-http3 curl -ILv https://10.10.10.186/ --http3
@@ -121,6 +129,7 @@ go get github.com/josephspurrier/goversioninfo
 #Scripts installation
 echo "IF9fX19fICAgICAgICAgICBfICAgICAgIF8gICAgICAgICBfICAgICAgICAgICBfICAgICAgICBfIF8gICAgICAgXyAgIF8gICAgICAgICAgICAgCi8gIF9fX3wgICAgICAgICAoXykgICAgIHwgfCAgICAgICAoXykgICAgICAgICB8IHwgICAgICB8IHwgfCAgICAgfCB8IChfKSAgICAgICAgICAgIApcIGAtLS4gIF9fXyBfIF9fIF8gXyBfXyB8IHxfIF9fXyAgIF8gXyBfXyAgX19ffCB8XyBfXyBffCB8IHwgX18gX3wgfF8gXyAgX19fICBfIF9fICAKIGAtLS4gXC8gX198ICdfX3wgfCAnXyBcfCBfXy8gX198IHwgfCAnXyBcLyBfX3wgX18vIF9gIHwgfCB8LyBfYCB8IF9ffCB8LyBfIFx8ICdfIFwgCi9cX18vIC8gKF9ffCB8ICB8IHwgfF8pIHwgfF9cX18gXCB8IHwgfCB8IFxfXyBcIHx8IChffCB8IHwgfCAoX3wgfCB8X3wgfCAoXykgfCB8IHwgfApcX19fXy8gXF9fX3xffCAgfF98IC5fXy8gXF9ffF9fXy8gfF98X3wgfF98X19fL1xfX1xfXyxffF98X3xcX18sX3xcX198X3xcX19fL3xffCB8X3wKICAgICAgICAgICAgICAgICAgfCB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgIHxffCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA==" |base64 -d
 sleep 2
+cd Nemesis
 sudo mkdir /opt/Tools
 sudo mkdir /opt/Tools/Windows
 sudo mv Tools/Windows /opt/Tools/Windows/Others
@@ -137,7 +146,7 @@ sudo wget https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Colle
 sudo git clone https://github.com/ropnop/windapsearch.git
 sudo git clone https://github.com/411Hall/JAWS.git
 sudo git clone https://github.com/kaluche/bloodhound-quickwin.git
-curl -s https://api.github.com/repos/byt3bl33d3r/CrackMapExec/releases/latest |grep "browser_download_url.*cme-ubuntu.*zip" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O cme.zip
+#curl -s https://api.github.com/repos/byt3bl33d3r/CrackMapExec/releases/latest |grep "browser_download_url.*cme-ubuntu.*zip" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O cme.zip
 sudo unzip cme.zip
 sudo rm cme.zip
 sudo git clone https://github.com/franc-pentest/ldeep.git
@@ -183,6 +192,11 @@ echo "Obfuscation tools"
 sudo git clone https://github.com/CBHue/PyFuscation.git
 sudo git clone https://github.com/Genetic-Malware/Ebowla.git
 curl -s https://api.github.com/repos/optiv/ScareCrow/releases/latest |grep "browser_download_url.*linux_amd64" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O ScareCrow
+sudo git clone https://github.com/phra/PEzor.git
+cd PEzor
+sudo bash install.sh
+#Cause I'm using fish. Adapte this command to your shell solution
+set -Ua fish_user_paths $fish_user_paths ~/go/bin/ /opt/Tools/Windows/PEzor /opt/Tools/Windows/PEzor/deps/donut/ /opt/Tools/Windows/PEzor/deps/wclang/_prefix_PEzor_/bin/
 
 echo "Specific tools : SQL/SCCM/Backup"
 sudo git clone https://github.com/NetSPI/PowerUpSQL.git
@@ -262,9 +276,9 @@ cd stegsolve
 sudo wget http://www.caesum.com/handbook/Stegsolve.jar -O stegsolve.jar
 cd ..
 #For stego docker futur use
-sudo mkdir data
-sudo service docker start
-sudo docker pull dominicbreuker/stego-toolkit
+#sudo mkdir data
+#sudo service docker start
+#sudo docker pull dominicbreuker/stego-toolkit
 
 #PWN
 cd ..
@@ -286,7 +300,6 @@ sleep 2
 sudo mkdir Forensics
 cd Forensics
 sudo git clone https://github.com/volatilityfoundation/volatility.git
-cd ..
 
 #General tools
 cd ..
@@ -310,28 +323,26 @@ sudo wget http://didierstevens.com/files/software/XORSearch_V1_11_3.zip -O XORSe
 sudo unzip XORSearch.zip
 sudo rm XORSearch.zip
 cd ..
-sudo git clone https://github.com/xct/xc.git
+sudo git clone --recurse-submodules https://github.com/xct/xc.git
 cd xc
-go get golang.org/x/sys/windows
-go get golang.org/x/text/encoding/unicode
-go get github.com/hashicorp/yamux
-go get github.com/ropnop/go-clr
-make
-go build
+GO111MODULE=off go get golang.org/x/sys/...
+GO111MODULE=off go get golang.org/x/text/encoding/unicode
+GO111MODULE=off go get github.com/hashicorp/yamux
+sudo python3 build.py
 cd ..
 
 
 sudo chown -R $username:$username /opt/Tools
 sudo chmod -R 755 /opt/Tools
 
-#ropstar
-echo "ICAgICAgICAgICAgICAgICAgICAgXyAgICAgICAgICAgICAgICAKIF8gX18gX19fICBfIF9fICBfX198IHxfIF9fIF8gXyBfXyAgICAKfCAnX18vIF8gXHwgJ18gXC8gX198IF9fLyBfYCB8ICdfX3wgICAKfCB8IHwgKF8pIHwgfF8pIFxfXyBcIHx8IChffCB8IHxfIF8gXyAKfF98ICBcX19fL3wgLl9fL3xfX18vXF9fXF9fLF98XyhffF98XykKICAgICAgICAgIHxffCAgICAgICAgICAgICAgICAgICAgICAgICA=" |base64 -d
-sleep 2
-cd
-git clone https://github.com/BlWasp/setupRopstar.git
-cd setupRopstar
-chmod +x ./setup.sh
-./setup.sh
+#ropstar (TODO : verify validity after XCT's installation modifications)
+#echo "ICAgICAgICAgICAgICAgICAgICAgXyAgICAgICAgICAgICAgICAKIF8gX18gX19fICBfIF9fICBfX198IHxfIF9fIF8gXyBfXyAgICAKfCAnX18vIF8gXHwgJ18gXC8gX198IF9fLyBfYCB8ICdfX3wgICAKfCB8IHwgKF8pIHwgfF8pIFxfXyBcIHx8IChffCB8IHxfIF8gXyAKfF98ICBcX19fL3wgLl9fL3xfX18vXF9fXF9fLF98XyhffF98XykKICAgICAgICAgIHxffCAgICAgICAgICAgICAgICAgICAgICAgICA=" |base64 -d
+#sleep 2
+#cd
+#git clone https://github.com/BlWasp/setupRopstar.git
+#cd setupRopstar
+#chmod +x ./setup.sh
+#./setup.sh
 
 #gef
 echo "ICAgICAgICAgICAgIF9fICAgICAgCiAgX18gXyAgX19fIC8gX3wgICAgIAogLyBfYCB8LyBfIFwgfF8gICAgICAKfCAoX3wgfCAgX18vICBffCBfIF8gCiBcX18sIHxcX19ffF98KF98X3xfKQogfF9fXy8gICAgICAgICAgICAgICA=" |base64 -d
