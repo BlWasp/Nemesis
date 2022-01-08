@@ -85,15 +85,17 @@ python -m pip install bloodhound
 python -m pip install aclpwn
 python -m pip install capstone
 python -m pip install filebytes
-python3 -m pip install keystone-engine
 python -m pip install ropper
+python3 -m pip install keystone-engine
 python3 -m pip install z3-solver
 python3 -m pip install kerberos
+python3 -m pip install minikerberos
 python3 -m pip install kerberoast
 #sudo python -m pip install sshuttle
 python3 -m pip install py2neo
 python3 -m pip install pandas
 python3 -m pip install prettytable
+python3 -m pip install pypykatz
 
 echo "Update all pip packets"
 for x in $(pip list -o --format=columns | sed -n '3,$p' | cut -d' ' -f1); do pip install $x --upgrade; done
@@ -150,6 +152,10 @@ sudo git clone https://github.com/kaluche/bloodhound-quickwin.git
 sudo unzip cme.zip
 sudo rm cme.zip
 sudo git clone https://github.com/franc-pentest/ldeep.git
+# PrintNightmare scanner
+sudo git clone https://github.com/byt3bl33d3r/ItWasAllADream
+cd ItWasAllADream && docker build -t itwasalladream .
+cd ..
 
 echo "Brute Force tools"
 curl -s https://api.github.com/repos/ropnop/kerbrute/releases/latest |grep "browser_download_url.*linux_amd64" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O kerbrute
@@ -178,6 +184,16 @@ sudo wget https://github.com/gentilkiwi/kekeo/releases/download/2.2.0-20210723/k
 echo "ADFS tools"
 sudo git clone https://github.com/mandiant/ADFSDump.git
 sudo git clone https://github.com/mandiant/ADFSpoof.git
+
+echo "ADCS tools"
+sudo git clone https://github.com/dirkjanm/PKINITtools
+cd PKINITtools
+python3 -m pip install -r requirements.txt
+cd ..
+sudo git clone https://github.com/ly4k/Certipy.git
+cd Certipy
+python3 setup.py install
+cd ..
 
 #To get the last version of impacket
 echo "Impacket"
@@ -315,7 +331,16 @@ sudo gunzip -d chiselLinux.gz
 sudo chmod 755 chiselLinux
 cd ..
 sudo git clone https://github.com/iphelix/dnschef.git
-sudo git clone https://github.com/carlospolop/PEASS-ng.git
+#PEASS scripts and binaries
+mkdir PEASS
+cd PEASS
+curl -s https://api.github.com/repos/carlospolop/peass-ng/releases/latest |grep "browser_download_url.*linpeas.sh" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O linpeas.sh
+curl -s https://api.github.com/repos/carlospolop/peass-ng/releases/latest |grep "browser_download_url.*winPEAS.bat" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O winPEAS.bat
+curl -s https://api.github.com/repos/carlospolop/peass-ng/releases/latest |grep "browser_download_url.*winPEASany.exe" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O winPEASany.exe
+curl -s https://api.github.com/repos/carlospolop/peass-ng/releases/latest |grep "browser_download_url.*winPEASx64.exe" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O winPEASx64.exe
+curl -s https://api.github.com/repos/carlospolop/peass-ng/releases/latest |grep "browser_download_url.*winPEASx86.exe" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O winPEASx86.exe
+cd ..
+
 sudo git clone https://github.com/andrew-d/static-binaries.git
 sudo mkdir XORSearch
 cd XORSearch
