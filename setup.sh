@@ -142,16 +142,17 @@ sleep 2
 cd /opt/Tools/Windows
 
 echo "Recon tools"
-sudo mkdir SharpHound
-sudo wget https://github.com/BloodHoundAD/BloodHound/raw/master/Collectors/SharpHound.exe -O SharpHound/SharpHound.exe
-sudo wget https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/SharpHound.ps1 -O SharpHound/SharpHound.ps1
 sudo git clone https://github.com/ropnop/windapsearch.git
 sudo git clone https://github.com/411Hall/JAWS.git
 sudo git clone https://github.com/kaluche/bloodhound-quickwin.git
 #curl -s https://api.github.com/repos/byt3bl33d3r/CrackMapExec/releases/latest |grep "browser_download_url.*cme-ubuntu.*zip" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O cme.zip
-sudo unzip cme.zip
-sudo rm cme.zip
+#sudo unzip cme.zip
+#sudo rm cme.zip
 sudo git clone https://github.com/franc-pentest/ldeep.git
+cd ldeep
+python3 -m pip install -r requirements.txt
+sudo python3 setup.py install
+cd ..
 # PrintNightmare scanner
 sudo git clone https://github.com/byt3bl33d3r/ItWasAllADream
 cd ItWasAllADream && docker build -t itwasalladream .
@@ -165,21 +166,28 @@ sudo git clone https://github.com/Greenwolf/Spray.git
 echo "Relay/NTLM tools"
 sudo wget https://gist.githubusercontent.com/3xocyte/cfaf8a34f76569a8251bde65fe69dccc/raw/7c7f09ea46eff4ede636f69c00c6dfef0541cd14/dementor.py -O dementor.py
 sudo chmod 755 dementor.py
+sudo git clone https://github.com/topotam/PetitPotam.git
 sudo git clone https://github.com/evilmog/ntlmv1-multi.git
 sudo git clone https://github.com/Kevin-Robertson/Inveigh.git
 sudo git clone https://github.com/dirkjanm/krbrelayx.git
 
 echo "Potato tools"
 sudo mkdir Potato
-curl -s https://api.github.com/repos/ohpe/juicy-potato/releases/latest |grep "browser_download_url.*exe" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O Potato/JuicyPotato.exe
-sudo wget https://github.com/breenmachine/RottenPotatoNG/raw/master/RottenPotatoEXE/x64/Release/MSFRottenPotato.exe -O Potato/RottenPotato.exe
-sudo wget https://github.com/breenmachine/RottenPotatoNG/raw/master/RottenPotatoDLL/x64/Release/MSFRottenPotato.dll -O Potato/RottenPotato.dll
+cd Potato
+curl -s https://api.github.com/repos/ohpe/juicy-potato/releases/latest |grep "browser_download_url.*exe" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O JuicyPotato.exe
+sudo wget https://github.com/breenmachine/RottenPotatoNG/raw/master/RottenPotatoEXE/x64/Release/MSFRottenPotato.exe -O RottenPotato.exe
+sudo wget https://github.com/breenmachine/RottenPotatoNG/raw/master/RottenPotatoDLL/x64/Release/MSFRottenPotato.dll -O RottenPotato.dll
+sudo wget https://github.com/antonioCoco/RemotePotato0/releases/download/1.2/RemotePotato0.zip -O RemotePotato0.zip
+sudo unzip RemotePotato0.zip && sudo rm RemotePotato0.zip
+sudo wget https://github.com/antonioCoco/RoguePotato/releases/download/1.0/RoguePotato.zip -O RoguePotato.zip
+sudo unzip RoguePotato.zip && sudo rm RoguePotato.zip
 #Not potato, but same goal
 sudo wget https://github.com/itm4n/PrintSpoofer/releases/download/v1.0/PrintSpoofer64.exe -O PrintSpoofer64.exe
+cd ..
 
 echo "Mimikatz"
 sudo wget https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20210810-2/mimikatz_trunk.7z -O mimikatz.7z
-sudo wget https://github.com/gentilkiwi/kekeo/releases/download/2.2.0-20210723/kekeo.zip -O kekeo.zip
+sudo wget https://github.com/gentilkiwi/kekeo/releases/download/2.2.0-20211214/kekeo.zip -O kekeo.zip
 
 echo "ADFS tools"
 sudo git clone https://github.com/mandiant/ADFSDump.git
