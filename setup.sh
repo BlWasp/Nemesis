@@ -2,6 +2,7 @@
 
 echo "Enter the user who will use this installation"
 read username
+path=$(pwd)
 cd
 
 #Environment
@@ -76,12 +77,12 @@ echo "ICAgICAgIF8gICAgICAgICAgICAKIF8gX18gKF8pXyBfXyAgICAgICAKfCAnXyBcfCB8ICdfIF
 sleep 2
 python -m pip install --upgrade setuptools
 python -m pip install pycrypto
-python -m pip install pwntools
+python2 -m pip install pwntools
 python3 -m pip install pwntools
 python -m pip install ldap3
 python -m pip install dnspython
-python -m pip install impacket
-python -m pip install bloodhound
+#python -m pip install impacket
+python3 -m pip install bloodhound
 python -m pip install aclpwn
 python -m pip install capstone
 python -m pip install filebytes
@@ -96,6 +97,7 @@ python3 -m pip install py2neo
 python3 -m pip install pandas
 python3 -m pip install prettytable
 python3 -m pip install pypykatz
+python3 -m pip install roadrecon
 
 echo "Update all pip packets"
 for x in $(pip list -o --format=columns | sed -n '3,$p' | cut -d' ' -f1); do pip install $x --upgrade; done
@@ -131,7 +133,7 @@ go get github.com/EgeBalci/sgn
 #Scripts installation
 echo "IF9fX19fICAgICAgICAgICBfICAgICAgIF8gICAgICAgICBfICAgICAgICAgICBfICAgICAgICBfIF8gICAgICAgXyAgIF8gICAgICAgICAgICAgCi8gIF9fX3wgICAgICAgICAoXykgICAgIHwgfCAgICAgICAoXykgICAgICAgICB8IHwgICAgICB8IHwgfCAgICAgfCB8IChfKSAgICAgICAgICAgIApcIGAtLS4gIF9fXyBfIF9fIF8gXyBfXyB8IHxfIF9fXyAgIF8gXyBfXyAgX19ffCB8XyBfXyBffCB8IHwgX18gX3wgfF8gXyAgX19fICBfIF9fICAKIGAtLS4gXC8gX198ICdfX3wgfCAnXyBcfCBfXy8gX198IHwgfCAnXyBcLyBfX3wgX18vIF9gIHwgfCB8LyBfYCB8IF9ffCB8LyBfIFx8ICdfIFwgCi9cX18vIC8gKF9ffCB8ICB8IHwgfF8pIHwgfF9cX18gXCB8IHwgfCB8IFxfXyBcIHx8IChffCB8IHwgfCAoX3wgfCB8X3wgfCAoXykgfCB8IHwgfApcX19fXy8gXF9fX3xffCAgfF98IC5fXy8gXF9ffF9fXy8gfF98X3wgfF98X19fL1xfX1xfXyxffF98X3xcX18sX3xcX198X3xcX19fL3xffCB8X3wKICAgICAgICAgICAgICAgICAgfCB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgIHxffCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA==" |base64 -d
 sleep 2
-cd Nemesis
+cd $path
 sudo mkdir /opt/Tools
 sudo mkdir /opt/Tools/Windows
 sudo mv Tools/Windows /opt/Tools/Windows/Others
@@ -140,6 +142,15 @@ sudo mv Tools/Windows /opt/Tools/Windows/Others
 echo "IF9fICAgIF9fIF8gICAgICAgICAgIF8gICAgICAgICAgICAgICAgICAgICAgICAgCi8gLyAvXCBcIChfKV8gX18gICBfX3wgfCBfX19fXyAgICAgIF9fX19fICAgICAgIApcIFwvICBcLyAvIHwgJ18gXCAvIF9gIHwvIF8gXCBcIC9cIC8gLyBfX3wgICAgICAKIFwgIC9cICAvfCB8IHwgfCB8IChffCB8IChfKSBcIFYgIFYgL1xfXyBcXyBfIF8gCiAgXC8gIFwvIHxffF98IHxffFxfXyxffFxfX18vIFxfL1xfLyB8X19fKF98X3xfKQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=" |base64 -d
 sleep 2
 cd /opt/Tools/Windows
+
+#To get the last version of impacket
+echo "Impacket"
+pip3 uninstall impacket
+sudo git clone https://github.com/SecureAuthCorp/impacket.git
+cd impacket
+python3 -m pip install -r requirements.txt
+sudo python3 setup.py install
+cd ..
 
 echo "Recon tools"
 sudo git clone https://github.com/ropnop/windapsearch.git
@@ -168,10 +179,20 @@ sudo wget https://gist.githubusercontent.com/3xocyte/cfaf8a34f76569a8251bde65fe6
 sudo chmod 755 dementor.py
 sudo git clone https://github.com/topotam/PetitPotam.git
 sudo git clone https://github.com/evilmog/ntlmv1-multi.git
+sudo git clone https://github.com/dirkjanm/mitm6.git
+cd mitm6
+python3 -m pip install -r requirements.txt
+sudo python3 setup.py install
+cd ..
 sudo git clone https://github.com/Kevin-Robertson/Inveigh.git
 sudo git clone https://github.com/dirkjanm/krbrelayx.git
+sudo git clone https://github.com/Hackndo/WebclientServiceScanner.git
+cd WebclientServiceScanner
+sudo python3 setup.py install
+cd ..
 
 echo "Potato tools"
+#SweetPotato is in the SharpCollection repo
 sudo mkdir Potato
 cd Potato
 curl -s https://api.github.com/repos/ohpe/juicy-potato/releases/latest |grep "browser_download_url.*exe" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O JuicyPotato.exe
@@ -189,10 +210,6 @@ echo "Mimikatz"
 sudo wget https://github.com/gentilkiwi/mimikatz/releases/download/2.2.0-20210810-2/mimikatz_trunk.7z -O mimikatz.7z
 sudo wget https://github.com/gentilkiwi/kekeo/releases/download/2.2.0-20211214/kekeo.zip -O kekeo.zip
 
-echo "ADFS tools"
-sudo git clone https://github.com/mandiant/ADFSDump.git
-sudo git clone https://github.com/mandiant/ADFSpoof.git
-
 echo "ADCS tools"
 sudo git clone https://github.com/dirkjanm/PKINITtools
 cd PKINITtools
@@ -201,15 +218,6 @@ cd ..
 sudo git clone https://github.com/ly4k/Certipy.git
 cd Certipy
 python3 setup.py install
-cd ..
-
-#To get the last version of impacket
-echo "Impacket"
-pip3 uninstall impacket
-sudo git clone https://github.com/SecureAuthCorp/impacket.git
-cd impacket
-python3 -m pip install -r requirements.txt
-python3 -m pip install .
 cd ..
 
 echo "Obfuscation tools"
@@ -224,11 +232,26 @@ set -Ua fish_user_paths $fish_user_paths ~/go/bin/ /opt/Tools/Windows/PEzor /opt
 
 echo "Specific tools : SQL/SCCM/Backup"
 sudo git clone https://github.com/NetSPI/PowerUpSQL.git
-sudo git clone https://github.com/PowerShellMafia/PowerSCCM.git
+#Personal fork with CMScripts deployement (PR still open)
+sudo git clone https://github.com/BlWasp/PowerSCCM.git
 sudo git clone https://github.com/giuliano108/SeBackupPrivilege.git
 
-echo "Azure"
+echo "Azure/ADFS tools"
+#ADFSDump is in the SharpCollection repo
+sudo git clone https://github.com/mandiant/ADFSpoof.git
+cd ADFSpoof
+python3 -m pip install -r requirements.txt
+cd ..
 sudo git clone https://github.com/Gerenios/AADInternals.git
+sudo git clone https://github.com/LMGsec/o365creeper.git
+sudo git clone https://github.com/morRubin/PrtToCert.git
+cd PrtToCert
+python3 -m pip install -r requirements.txt
+cd ..
+sudo git clone https://github.com/morRubin/AzureADJoinedMachinePTC.git
+cd AzureADJoinedMachinePTC
+python3 -m pip install -r requirements.txt
+cd ..
 
 echo "PowerShell tools compilation"
 sudo git clone https://github.com/PowerShellMafia/PowerSploit.git -b dev
@@ -240,6 +263,14 @@ sudo git clone https://github.com/Kevin-Robertson/Powermad.git
 echo "C# tools compilation"
 sudo git clone https://github.com/r3motecontrol/Ghostpack-CompiledBinaries.git
 sudo git clone https://github.com/Flangvik/SharpCollection.git
+
+echo "CVE repos"
+sudo git clone https://github.com/ly4k/SpoolFool.git
+sudo git clone https://github.com/cube0x0/CVE-2021-1675.git
+sudo git clone https://github.com/SecuraBV/CVE-2020-1472.git
+cd CVE-2020-1472
+python3 -m pip install -r requirements.txt
+cd ..
 
 
 #Linux
@@ -271,7 +302,7 @@ sudo git clone https://github.com/arthaud/git-dumper.git
 sudo git clone https://github.com/mxrch/webwrap.git
 sudo git clone https://github.com/epinna/tplmap.git
 sudo git clone https://github.com/cnotin/SplunkWhisperer2.git
-sudo git clone https://github.com/drk1wi/Modlishka.git
+sudo git clone https://github.com/cisagov/log4j-scanner.git
 
 #Crypto
 cd ..
@@ -324,6 +355,17 @@ sleep 2
 sudo mkdir Forensics
 cd Forensics
 sudo git clone https://github.com/volatilityfoundation/volatility.git
+
+#Android
+cd ..
+echo "ICAgXyAgICAgICAgICAgICBfICAgICAgICAgICBfICAgICBfICAgICAgIAogIC9fXCAgXyBfXyAgIF9ffCB8XyBfXyBfX18gKF8pIF9ffCB8ICAgICAgCiAvL19cXHwgJ18gXCAvIF9gIHwgJ19fLyBfIFx8IHwvIF9gIHwgICAgICAKLyAgXyAgXCB8IHwgfCAoX3wgfCB8IHwgKF8pIHwgfCAoX3wgfF8gXyBfIApcXy8gXF8vX3wgfF98XF9fLF98X3wgIFxfX18vfF98XF9fLF8oX3xffF8pCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=" |base64 -d
+sleep 2
+sudo mkdir Android
+cd Android
+sudo git clone https://github.com/MobSF/Mobile-Security-Framework-MobSF.git
+cd Mobile-Security-Framework-MobSF
+./setup.sh
+cd ..
 
 #General tools
 cd ..
