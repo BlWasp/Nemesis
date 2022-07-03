@@ -11,7 +11,6 @@ sleep 2
 
 sudo apt -y install golang
 sudo apt -y install gem
-#sudo apt -y install python-pip
 curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
 python get-pip.py
 python -m pip install --upgrade pip
@@ -44,11 +43,10 @@ sudo apt -y install patchelf
 sudo apt -y install fcrackzip
 sudo apt -y install steghide
 sudo apt -y install pdfcrack
-sudo apt -y install qemu
+#sudo apt -y install qemu
 sudo apt -y install qemu-user
 sudo apt -y install qemu-system
 sudo apt -y install gdb-multiarch
-#sudo apt -y install volatility
 sudo apt -y install rlwrap
 sudo apt -y install libgmp3-dev libmpc-dev
 sudo apt -y install seahorse
@@ -81,7 +79,6 @@ python2 -m pip install pwntools
 python3 -m pip install pwntools
 python -m pip install ldap3
 python -m pip install dnspython
-#python -m pip install impacket
 python3 -m pip install bloodhound
 python -m pip install aclpwn
 python -m pip install capstone
@@ -113,18 +110,15 @@ sudo gem install wpscan
 #go packages
 echo "ICBfXyBfICBfX18gICAgICAgCiAvIF9gIHwvIF8gXCAgICAgIAp8IChffCB8IChfKSB8IF8gXyAKIFxfXywgfFxfX18oX3xffF8pCiB8X19fLyAgICAgICAgICAgIA==" |base64 -d
 sleep 2
-go get github.com/ffuf/ffuf
-go get github.com/OJ/gobuster
-go get -u github.com/drk1wi/Modlishka
-cd $GOPATH/src/github.com/drk1wi/Modlishka/
-make
-cd
+go install github.com/ffuf/ffuf@latest
+go install github.com/OJ/gobuster/v3@latest
+go install github.com/drk1wi/Modlishka@latest
 #For ScarCrow
-go get github.com/fatih/color
-go get github.com/yeka/zip
-go get github.com/josephspurrier/goversioninfo
+go install github.com/fatih/color@latest
+go install github.com/yeka/zip@latest
+go install github.com/josephspurrier/goversioninfo@latest
 #For PEzor
-go get github.com/EgeBalci/sgn
+go install github.com/EgeBalci/sgn@latest
 
 #echo "docker http3..."
 #docker run -it --rm ymuski/curl-http3 curl -ILv https://10.10.10.186/ --http3
@@ -217,7 +211,7 @@ python3 -m pip install -r requirements.txt
 cd ..
 sudo git clone https://github.com/ly4k/Certipy.git
 cd Certipy
-python3 setup.py install
+sudo python3 setup.py install
 cd ..
 
 echo "Obfuscation tools"
@@ -268,9 +262,9 @@ echo "CVE repos"
 sudo git clone https://github.com/ly4k/SpoolFool.git
 sudo git clone https://github.com/cube0x0/CVE-2021-1675.git
 sudo git clone https://github.com/SecuraBV/CVE-2020-1472.git
-cd CVE-2020-1472
-python3 -m pip install -r requirements.txt
-cd ..
+# cd CVE-2020-1472
+# python3 -m pip install -r requirements.txt
+# cd ..
 
 
 #Linux
@@ -311,13 +305,13 @@ sleep 2
 sudo mkdir Crypto
 cd Crypto
 sudo git clone https://github.com/Ganapati/RsaCtfTool.git
-cd RsaCtfTool
-pip3 install -r "requirements.txt"
-cd ..
+# cd RsaCtfTool
+# pip3 install -r "requirements.txt"
+# cd ..
 sudo git clone https://github.com/nccgroup/featherduster.git
-cd featherduster
-sudo python3 setup.py install
-cd ..
+# cd featherduster
+# sudo python3 setup.py install
+# cd ..
 
 #Stego
 cd ..
@@ -382,7 +376,7 @@ sudo chmod 755 chiselLinux
 cd ..
 sudo git clone https://github.com/iphelix/dnschef.git
 #PEASS scripts and binaries
-mkdir PEASS
+sudo mkdir PEASS
 cd PEASS
 curl -s https://api.github.com/repos/carlospolop/peass-ng/releases/latest |grep "browser_download_url.*linpeas.sh" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O linpeas.sh
 curl -s https://api.github.com/repos/carlospolop/peass-ng/releases/latest |grep "browser_download_url.*winPEAS.bat" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O winPEAS.bat
