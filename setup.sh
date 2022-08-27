@@ -25,6 +25,7 @@ sleep 2
 #apt packages
 echo "ICAgICAgICAgICAgIF8gICAgICAgICAKICBfXyBfIF8gX18gfCB8XyAgICAgICAKIC8gX2AgfCAnXyBcfCBfX3wgICAgICAKfCAoX3wgfCB8XykgfCB8XyBfIF8gXyAKIFxfXyxffCAuX18vIFxfXyhffF98XykKICAgICAgfF98ICAgICAgICAgICAgICA=" |base64 -d
 sleep 2
+# apt install is usefull to obtain all the SMB modules
 sudo apt -y install crackmapexec
 sudo apt -y install python2-dev
 sudo apt -y install python-dev-is-python3
@@ -150,9 +151,11 @@ echo "Recon tools"
 sudo git clone https://github.com/ropnop/windapsearch.git
 sudo git clone https://github.com/411Hall/JAWS.git
 sudo git clone https://github.com/kaluche/bloodhound-quickwin.git
-#curl -s https://api.github.com/repos/byt3bl33d3r/CrackMapExec/releases/latest |grep "browser_download_url.*cme-ubuntu.*zip" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O cme.zip
-#sudo unzip cme.zip
-#sudo rm cme.zip
+#Last CME binary to obtain the last modules
+curl -s https://api.github.com/repos/Porchetta-Industries/CrackMapExec/releases/latest |grep "browser_download_url.*cme-ubuntu.*zip" | cut -d : -f 2,3 | tr -d \" | cut -d \n  -f 1 | sudo wget -qi - -O cme.zip
+sudo unzip cme.zip
+sudo chmod 755 cme
+sudo rm cme.zip
 sudo git clone https://github.com/franc-pentest/ldeep.git
 cd ldeep
 python3 -m pip install -r requirements.txt
@@ -223,6 +226,7 @@ cd PEzor
 sudo bash install.sh
 #Cause I'm using fish. Adapte this command to your shell solution
 set -Ua fish_user_paths $fish_user_paths ~/go/bin/ /opt/Tools/Windows/PEzor /opt/Tools/Windows/PEzor/deps/donut/ /opt/Tools/Windows/PEzor/deps/wclang/_prefix_PEzor_/bin/
+cd ..
 
 echo "Specific tools : SQL/SCCM/Backup"
 sudo git clone https://github.com/NetSPI/PowerUpSQL.git
