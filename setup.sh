@@ -2,7 +2,7 @@
 
 echo "Enter the user who will use this installation"
 read username
-echo "Will you use this installation for pentest or CTF ? CTF choice will install additionnal tools for pwn, stego,... (pentest/ctf)"
+echo "Will you use this installation for pentest or CTF ? CTF choice will install additionnal tools for pwn, stego, forensics... (pentest/ctf)"
 read usage
 path=$(pwd)
 cd
@@ -13,14 +13,21 @@ sleep 2
 
 sudo apt update --fix-missing
 sudo apt dist-upgrade
-sudo apt -y install golang-go
+#go
+curl -O https://dl.google.com/go/go1.20.5.linux-amd64.tar.gz
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.5.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+#gem
 sudo apt -y install gem
+#rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+export PATH=$PATH:$HOME/.cargo/bin
+#poetry
+curl -sSL https://install.python-poetry.org | python3 -
 #python2 pip installation
 curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
 python2 get-pip.py
 python2 -m pip install --upgrade pip
-sudo apt -y install python3-pip
-python3 -m pip install --upgrade pip
 
 
 #Softwares
@@ -31,28 +38,36 @@ sleep 2
 echo "ICAgICAgICAgICAgIF8gICAgICAgICAKICBfXyBfIF8gX18gfCB8XyAgICAgICAKIC8gX2AgfCAnXyBcfCBfX3wgICAgICAKfCAoX3wgfCB8XykgfCB8XyBfIF8gXyAKIFxfXyxffCAuX18vIFxfXyhffF98XykKICAgICAgfF98ICAgICAgICAgICAgICA=" |base64 -d
 sleep 2
 #Usefull stuff
-sudo apt -y install libpq-dev libmariadb-dev-compat libmariadb-dev libcairo2-dev libgmp3-dev libmpc-dev
+sudo apt -y install libpcap-dev libpq-dev libmariadb-dev-compat libmariadb-dev libcairo2-dev libgmp3-dev libmpc-dev
 sudo apt -y install python2-dev python-dev-is-python3
-sudo apt -y install python3.10-venv
+sudo apt -y install python3.12-venv
 sudo apt -y install seahorse
 sudo apt -y install terminator
-sudo apt -y install powershell
 sudo apt -y install rlwrap
 sudo apt -y install docker docker.io
+sudo apt -y install mingw-w64
 sudo apt -y install ewf-tools
 sudo apt -y install squidclient
 sudo apt -y install sshuttle iptables
 sudo apt -y install fcrackzip
 sudo apt -y install pdfcrack
+sudo apt -y install seclists
 #Fish shell
 sudo apt -y install fish
 chsh -s $(which fish)
+#Cause I'm using fish. Adapte this command to your shell solution
+set -Ua fish_user_paths $fish_user_paths /usr/local/go/bin /home/$username/.local/bin /home/$username/.cargo/bin
+
+if [ "$usage" = "pentest" ]; then
+	sudo apt -y install flameshot
+	sudo apt -y install airgeddon
+fi
 
 #Microsoft stuff
-#CME apt install is usefull to obtain all the SMB modules
-sudo apt -y install crackmapexec
-sudo wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -
-sudo echo 'deb https://debian.neo4j.com stable 4.0' > /etc/apt/sources.list.d/neo4j.list
+sudo apt purge crackmapexec
+sudo apt purge python3-impacket
+wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -
+echo 'deb https://debian.neo4j.com stable latest' | sudo tee -a /etc/apt/sources.list.d/neo4j.list
 sudo apt update
 sudo apt -y install apt-transport-https
 sudo apt -y install neo4j
@@ -64,14 +79,12 @@ if [ "$usage" = "ctf" ]; then
 	#PWN stuff
 	sudo apt -y install gdb
 	sudo apt -y install gdbserver
-	sudo apt -y install seclists
 	sudo apt -y install qemu-user
 	sudo apt -y install qemu-system
 	sudo apt -y install gdb-multiarch
 	sudo apt -y install patchelf
 
 	#Crypto stuff
-	sudo apt -y install zstd
 	sudo apt -y install osslsigncode
 	
 	#Stego stuff
@@ -81,51 +94,60 @@ fi
 #Sublime Text
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
 echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-sudo apt-get update
-sudo apt-get install sublime-text
+sudo apt update
+sudo apt -y install sublime-text
 
 
 #pip packets
 echo "ICAgICAgIF8gICAgICAgICAgICAKIF8gX18gKF8pXyBfXyAgICAgICAKfCAnXyBcfCB8ICdfIFwgICAgICAKfCB8XykgfCB8IHxfKSB8IF8gXyAKfCAuX18vfF98IC5fXyhffF98XykKfF98ICAgICB8X3wgICAgICAgICA=" |base64 -d
 sleep 2
 #Usefull stuff
-pip install --upgrade setuptools
-pip install dnspython
-pip install pandas
-pip install prettytable
+pip3 install --upgrade setuptools
+pip3 install --user pipx
+python3 -m pipx ensurepath
+export PATH=$PATH:/home/$username/.local/bin
+pip3 install dnspython
+pip3 install pandas
+pip3 install prettytable
+pip3 install python-libpcap
 
 #Microsoft stuff
-pip install py2neo
-pip install ldap3
-pip install kerberos
-pip install bloodhound
-pip install aclpwn
-pip install minikerberos
-pip install kerberoast
-pip install pypykatz
-pip install roadrecon
-pip install coercer
-pip install masky
+pip3 install py2neo
+pip3 install ldap3
+pip3 install kerberos
+pipx install bloodhound
+pipx install aclpwn
+pipx install minikerberos --force
+pipx install kerberoast
+pipx install pypykatz
+pipx install roadrecon
+pipx install coercer
+pipx install masky
+pip3 uninstall lsassy
+pipx install lsassy
 
 #Web stuff
-pip install git+https://github.com/lobuhi/byp4xx.git
-pip install pycryptodomex
+pip3 install pycryptodomex
 
 if [ "$usage" = "ctf" ]; then
 	#PWN stuff
 	python2 -m pip install pwntools
-	pip install pwntools
-	pip install ropper
-	pip install capstone
-	pip install keystone-engine
-	pip install filebytes
+	pip3 install pwntools
+	pipx install ropper
+	pip3 install capstone
+	pip3 install keystone-engine
+	pip3 install filebytes
 
 	#Crypto stuff
-	python -m pip install pycrypto
-	python -m pip install z3-solver
+	python2 -m pip install pycrypto
+	pip3 install z3-solver
+fi
+if [ "$usage" = "pentest" ]; then
+	#Wireless stuff
+	pip3 install wpa_supplicant
 fi
 
-echo "Update all pip packets"
+echo "Update all Python packets"
 for x in $(python2 -m pip list -o --format=columns | sed -n '3,$p' | cut -d' ' -f1); do python2 -m pip install $x --upgrade; done
 for x in $(pip3 list -o --format=columns | sed -n '3,$p' | cut -d' ' -f1); do pip3 install $x --upgrade; done
 
@@ -134,23 +156,18 @@ for x in $(pip3 list -o --format=columns | sed -n '3,$p' | cut -d' ' -f1); do pi
 echo "ICBfXyBfICBfX18gXyBfXyBfX18gICAgICAgIAogLyBfYCB8LyBfIFwgJ18gYCBfIFwgICAgICAgCnwgKF98IHwgIF9fLyB8IHwgfCB8IHxfIF8gXyAKIFxfXywgfFxfX198X3wgfF98IHxfKF98X3xfKQogfF9fXy8gICAgICAgICAgICAgICAgICAgICAg" |base64 -d
 sleep 2
 sudo gem install evil-winrm
-sudo gem install one_gadget
 sudo gem install wpscan
 
+if [ "$usage" = "ctf" ]; then
+	sudo gem install one_gadget
+fi
 
 #go packages
 echo "ICBfXyBfICBfX18gICAgICAgCiAvIF9gIHwvIF8gXCAgICAgIAp8IChffCB8IChfKSB8IF8gXyAKIFxfXywgfFxfX18oX3xffF8pCiB8X19fLyAgICAgICAgICAgIA==" |base64 -d
 sleep 2
 go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-#ffuf installed by default on Kali now
 go install github.com/OJ/gobuster/v3@latest
 go install github.com/drk1wi/Modlishka@latest
-#For ScarCrow
-go install github.com/fatih/color@latest
-go install github.com/yeka/zip@latest
-go install github.com/josephspurrier/goversioninfo@latest
-#For PEzor
-go install github.com/EgeBalci/sgn@latest
 
 #echo "docker http3..."
 #docker run -it --rm ymuski/curl-http3 curl -ILv https://10.10.10.186/ --http3
@@ -169,30 +186,42 @@ echo "IF9fICAgIF9fIF8gICAgICAgICAgIF8gICAgICAgICAgICAgICAgICAgICAgICAgCi8gLyAvXC
 sleep 2
 cd /opt/Tools/Windows
 
-#To get the last version of impacket
+#Install the impacket version of ThePorgs which is way better maintained
 echo "Impacket"
-pip3 uninstall impacket
-sudo git clone https://github.com/SecureAuthCorp/impacket.git
+sudo git clone https://github.com/ThePorgs/impacket.git
 cd impacket
-python3 -m pip install -r requirements.txt
-sudo python3 setup.py install
+pip3 install -r requirements.txt
+sudo pip3 install .
+cd ..
+
+echo "CrackMapExec"
+sudo git clone https://github.com/mpgn/CrackMapExec.git
+cd CrackMapExec
+poetry install
+cd ..
+
+echo "DonPAPI"
+sudo git clone https://github.com/login-securite/DonPAPI.git
+cd DonPAPI
+pip3 install -r requirements.txt 
 cd ..
 
 echo "Recon tools"
 sudo git clone https://github.com/ropnop/windapsearch.git
 sudo git clone https://github.com/411Hall/JAWS.git
 sudo git clone https://github.com/kaluche/bloodhound-quickwin.git
-#Last CME binary to obtain the last modules
-curl -s https://api.github.com/repos/Porchetta-Industries/CrackMapExec/releases/latest |grep "browser_download_url.*cme-ubuntu.*zip" | cut -d : -f 2,3 | tr -d \" | head -1 | wget -qi - -O cme.zip
-sudo unzip cme.zip && sudo chmod 755 cme && sudo rm cme.zip
 sudo git clone https://github.com/franc-pentest/ldeep.git
 cd ldeep
-python3 -m pip install -r requirements.txt
-sudo python3 setup.py install
+pip3 install -r requirements.txt
+sudo pip3 install .
 cd ..
-# PrintNightmare scanner
-sudo git clone https://github.com/byt3bl33d3r/ItWasAllADream
-cd ItWasAllADream && docker build -t itwasalladream .
+sudo git clone https://github.com/OPENCYBER-FR/RustHound.git
+cd RustHound
+sudo docker build -t rusthound .
+cd ..
+sudo git clone https://github.com/aniqfakhrul/powerview.py.git
+cd powerview.py
+pipx install .
 cd ..
 
 echo "Brute Force tools"
@@ -203,22 +232,20 @@ sudo git clone https://github.com/Greenwolf/Spray.git
 echo "Relay/NTLM tools"
 sudo git clone https://github.com/Tw1sm/RITM.git
 cd RITM
-sudo pip3 install .
+pipx install .
 cd ..
-sudo wget https://gist.githubusercontent.com/3xocyte/cfaf8a34f76569a8251bde65fe69dccc/raw/7c7f09ea46eff4ede636f69c00c6dfef0541cd14/dementor.py -O dementor.py
-sudo chmod 755 dementor.py
 sudo git clone https://github.com/topotam/PetitPotam.git
 sudo git clone https://github.com/evilmog/ntlmv1-multi.git
 sudo git clone https://github.com/dirkjanm/mitm6.git
 cd mitm6
-python3 -m pip install -r requirements.txt
-sudo python3 setup.py install
+pip3 install -r requirements.txt
+sudo pip3 install .
 cd ..
 sudo git clone https://github.com/Kevin-Robertson/Inveigh.git
 sudo git clone https://github.com/dirkjanm/krbrelayx.git
 sudo git clone https://github.com/Hackndo/WebclientServiceScanner.git
 cd WebclientServiceScanner
-sudo python3 setup.py install
+sudo pip3 install .
 cd ..
 
 echo "Potato tools"
@@ -236,6 +263,14 @@ sudo unzip RoguePotato.zip && sudo rm RoguePotato.zip
 sudo wget https://github.com/itm4n/PrintSpoofer/releases/download/v1.0/PrintSpoofer64.exe -O PrintSpoofer64.exe
 sudo wget https://github.com/antonioCoco/JuicyPotatoNG/releases/download/v1.1/JuicyPotatoNG.zip -O JuicyPotatoNG.zip
 sudo unzip JuicyPotatoNG.zip && sudo rm JuicyPotatoNG.zip
+sudo wget https://github.com/decoder-it/LocalPotato/releases/download/v1.0/LocalPotato.zip -O LocalPotato.zip
+sudo unzip LocalPotato.zip && sudo rm LocalPotato.zip
+cd ..
+
+echo "Impersonate"
+sudo git clone https://github.com/zblurx/impersonate-rs
+cd impersonate-rs
+make release
 cd ..
 
 echo "Mimikatz"
@@ -245,22 +280,25 @@ sudo wget https://github.com/gentilkiwi/kekeo/releases/download/2.2.0-20211214/k
 echo "ADCS tools"
 sudo git clone https://github.com/dirkjanm/PKINITtools
 cd PKINITtools
-python3 -m pip install -r requirements.txt
+pip3 install -r requirements.txt
 cd ..
-sudo git clone https://github.com/ly4k/Certipy.git
-cd Certipy
-sudo python3 setup.py install
-cd ..
+pipx install certipy-ad
 
 echo "Obfuscation tools"
 sudo git clone https://github.com/CBHue/PyFuscation.git
 sudo git clone https://github.com/Genetic-Malware/Ebowla.git
-curl -s https://api.github.com/repos/optiv/ScareCrow/releases/latest |grep "browser_download_url.*linux_amd64" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O ScareCrow
-sudo git clone https://github.com/phra/PEzor.git
-cd PEzor
-sudo bash install.sh
-#Cause I'm using fish. Adapte this command to your shell solution
-set -Ua fish_user_paths $fish_user_paths ~/go/bin/ /opt/Tools/Windows/PEzor /opt/Tools/Windows/PEzor/deps/donut/ /opt/Tools/Windows/PEzor/deps/wclang/_prefix_PEzor_/bin/
+sudo git clone https://github.com/optiv/ScareCrow.git
+sudo chown -R $username:$username ScareCrow
+sudo chmod -R 755 ScareCrow
+cd ScareCrow
+go get github.com/fatih/color && go get github.com/yeka/zip && go get github.com/josephspurrier/goversioninfo && go get github.com/Binject/debug/pe && go get github.com/awgh/rawreader
+go get github.com/mattn/go-isatty@v0.0.17
+go build ScareCrow.go
+cd ..
+sudo git clone https://github.com/optiv/Freeze.rs.git
+rustup target add x86_64-pc-windows-gnu
+cd Freeze.rs
+cargo build --release
 cd ..
 
 echo "Specific tools : SQL/SCCM/WSUS/Backup"
@@ -274,18 +312,15 @@ echo "Azure/ADFS tools"
 #ADFSDump is in the SharpCollection repo
 sudo git clone https://github.com/mandiant/ADFSpoof.git
 cd ADFSpoof
-python3 -m pip install -r requirements.txt
+pip3 install -r requirements.txt
 cd ..
 sudo git clone https://github.com/Gerenios/AADInternals.git
 sudo git clone https://github.com/LMGsec/o365creeper.git
 sudo git clone https://github.com/morRubin/PrtToCert.git
 cd PrtToCert
-python3 -m pip install -r requirements.txt
+pip3 install -r requirements.txt
 cd ..
 sudo git clone https://github.com/morRubin/AzureADJoinedMachinePTC.git
-cd AzureADJoinedMachinePTC
-python3 -m pip install -r requirements.txt
-cd ..
 
 echo "PowerShell tools compilation"
 sudo cp -r /usr/share/windows-resources/powersploit ./
@@ -301,11 +336,8 @@ sudo git clone https://github.com/Flangvik/SharpCollection.git
 echo "CVE repos"
 sudo git clone https://github.com/Ridter/noPac.git
 sudo git clone https://github.com/ly4k/SpoolFool.git
-sudo git clone https://github.com/cube0x0/CVE-2021-1675.git
+sudo git clone https://github.com/ly4k/PrintNightmare.git
 sudo git clone https://github.com/SecuraBV/CVE-2020-1472.git
-# cd CVE-2020-1472
-# python3 -m pip install -r requirements.txt
-# cd ..
 
 
 #Linux
@@ -314,8 +346,8 @@ echo "ICAgX18gXyAgICAgICAgICAgICAgICAgICAgICAgIAogIC8gLyhfKV8gX18gIF8gICBfX18gIF
 sleep 2
 sudo mkdir Linux
 cd Linux
-sudo wget https://jitpack.io/com/github/frohoff/ysoserial/master-SNAPSHOT/ysoserial-master-SNAPSHOT.jar -O yso.jar
-sudo wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.0/pspy32 -O pspy32
+sudo wget https://github.com/frohoff/ysoserial/releases/download/v0.0.6/ysoserial-all.jar -O yso.jar
+sudo wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64 -O pspy64
 curl -s https://api.github.com/repos/java-decompiler/jd-gui/releases/latest |grep "browser_download_url.*[0-9].jar" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O jd-gui.jar
 sudo git clone https://github.com/mxrch/snmp-shell.git
 
@@ -331,11 +363,19 @@ sudo git clone --depth 1 https://github.com/drwetter/testssl.sh.git
 sudo git clone https://github.com/ticarpi/jwt_tool.git
 sudo git clone https://github.com/FlorianPicca/JWT-Key-Recovery.git
 sudo git clone https://github.com/gsmith257-cyber/GraphCrawler.git
-sudo git clone git@github.com:dolevf/graphw00f.git
+sudo git clone https://github.com/dolevf/graphw00f.git
 sudo git clone https://github.com/arthaud/git-dumper.git
 sudo git clone https://github.com/mxrch/webwrap.git
 sudo git clone https://github.com/WhiteWinterWolf/wwwolf-php-webshell.git
 sudo git clone https://github.com/epinna/tplmap.git
+sudo git clone https://github.com/lobuhi/byp4xx.git
+cd byp4xx
+go build byp4xx.go
+cd ..
+sudo git clone https://github.com/laluka/bypass-url-parser.git
+cd bypass-url-parser
+pip3 install -r requirements.txt
+cd ..
 if [ "$usage" = "ctf" ]; then
 	sudo git clone https://github.com/AonCyberLabs/PadBuster.git
 	sudo git clone https://github.com/cnotin/SplunkWhisperer2.git
@@ -353,7 +393,7 @@ if [ "$usage" = "ctf" ]; then
 	sudo git clone https://github.com/nccgroup/featherduster.git
 	sudo mkdir XORSearch
 	cd XORSearch
-	sudo wget http://didierstevens.com/files/software/XORSearch_V1_11_3.zip -O XORSearch.zip
+	sudo wget https://github.com/DidierStevens/FalsePositives/raw/master/XORSearch_V1_11_4.zip -O XORSearch.zip
 	sudo unzip XORSearch.zip && sudo rm XORSearch.zip
 	cd ..
 
@@ -400,26 +440,42 @@ fi
 cd ..
 echo "ICAgXyAgICAgICAgICAgICBfICAgICAgICAgICBfICAgICBfICAgICAgIAogIC9fXCAgXyBfXyAgIF9ffCB8XyBfXyBfX18gKF8pIF9ffCB8ICAgICAgCiAvL19cXHwgJ18gXCAvIF9gIHwgJ19fLyBfIFx8IHwvIF9gIHwgICAgICAKLyAgXyAgXCB8IHwgfCAoX3wgfCB8IHwgKF8pIHwgfCAoX3wgfF8gXyBfIApcXy8gXF8vX3wgfF98XF9fLF98X3wgIFxfX18vfF98XF9fLF8oX3xffF8pCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=" |base64 -d
 sleep 2
+sudo docker pull opensecurity/mobile-security-framework-mobsf:latest
 sudo mkdir Android
 cd Android
-sudo git clone https://github.com/MobSF/Mobile-Security-Framework-MobSF.git
-cd Mobile-Security-Framework-MobSF
-./setup.sh
+sudo wget https://dl.google.com/android/repository/platform-tools-latest-linux.zip -O platform-tools-latest-linux.zip
+sudo unzip platform-tools-latest-linux.zip && sudo rm platform-tools-latest-linux.zip
+sudo git clone https://github.com/WithSecureLabs/drozer.git
+sudo chown -R $username:$username drozer/
+cd drozer
+python2 setup.py bdist_wheel 
+python2 -m pip install dist/drozer-2.5.0-py2-none-any.whl
+wget https://github.com/FSecureLABS/drozer/releases/download/2.3.4/drozer-agent-2.3.4.apk -O drozer-agent-2.3.4.apk
+cd ..
 cd ..
 
+
+if [ "$usage" = "pentest" ]; then
+	#Wireless
+	echo "IF9fICAgIF9fIF8gICAgICAgICAgXyAgICAgICAgICAgICAgICAgICAgIAovIC8gL1wgXCAoXylfIF9fIF9fX3wgfCBfX18gIF9fXyBfX18gICAgICAgClwgXC8gIFwvIC8gfCAnX18vIF8gXCB8LyBfIFwvIF9fLyBfX3wgICAgICAKIFwgIC9cICAvfCB8IHwgfCAgX18vIHwgIF9fL1xfXyBcX18gXF8gXyBfIAogIFwvICBcLyB8X3xffCAgXF9fX3xffFxfX198fF9fXy9fX18oX3xffF8pCg==" |base64 -d
+	sleep 2
+	sudo mkdir Wireless
+	cd Wireless
+	sudo git clone https://github.com/Wh1t3Rh1n0/air-hammer.git
+	sudo git clone https://github.com/s0lst1c3/eaphammer.git
+	cd eaphammer
+	sudo ./kali-setup
+	cd ..
+	cd ..
+fi
 
 #General tools
-cd ..
 echo "ICAgX19fICAgICAgICAgICAgICAgICAgICAgICAgICBfICAgXyAgICAgICAgICAgICAgXyAgICAgICAgICAgCiAgLyBfIFxfX18gXyBfXyAgIF9fXyBfIF9fIF9fIF98IHwgfCB8XyBfX18gICBfX18gfCB8X19fICAgICAgIAogLyAvX1wvIF8gXCAnXyBcIC8gXyBcICdfXy8gX2AgfCB8IHwgX18vIF8gXCAvIF8gXHwgLyBfX3wgICAgICAKLyAvX1xcICBfXy8gfCB8IHwgIF9fLyB8IHwgKF98IHwgfCB8IHx8IChfKSB8IChfKSB8IFxfXyBcXyBfIF8gClxfX19fL1xfX198X3wgfF98XF9fX3xffCAgXF9fLF98X3wgIFxfX1xfX18vIFxfX18vfF98X19fKF98X3xfKQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=" |base64 -d
 sleep 2
 sudo git clone https://github.com/RUB-NDS/PRET.git
-sudo mkdir Chisel
-cd Chisel
-curl -s https://api.github.com/repos/jpillora/chisel/releases/latest |grep "browser_download_url.*windows_amd64.gz" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O chiselWin.gz
-curl -s https://api.github.com/repos/jpillora/chisel/releases/latest |grep "browser_download_url.*linux_amd64.gz" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O chiselLinux.gz
-sudo gunzip -d chiselWin.gz
-sudo gunzip -d chiselLinux.gz
-sudo chmod 755 chiselLinux
+sudo git clone https://github.com/jpillora/chisel.git
+cd chisel
+sudo make linux && sudo make windows
 cd ..
 #PEASS scripts and binaries
 sudo mkdir PEASS
@@ -429,10 +485,12 @@ curl -s https://api.github.com/repos/carlospolop/peass-ng/releases/latest |grep 
 curl -s https://api.github.com/repos/carlospolop/peass-ng/releases/latest |grep "browser_download_url.*winPEASany.exe" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O winPEASany.exe
 curl -s https://api.github.com/repos/carlospolop/peass-ng/releases/latest |grep "browser_download_url.*winPEASx64.exe" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O winPEASx64.exe
 curl -s https://api.github.com/repos/carlospolop/peass-ng/releases/latest |grep "browser_download_url.*winPEASx86.exe" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O winPEASx86.exe
+curl -s https://api.github.com/repos/carlospolop/peass-ng/releases/latest |grep "browser_download_url.*winPEASx86.exe" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O winPEASx86.exe
+sudo wget https://raw.githubusercontent.com/carlospolop/PEASS-ng/master/winPEAS/winPEASps1/winPEAS.ps1 -O winPEAS.ps1
 cd ..
 sudo git clone https://github.com/andrew-d/static-binaries.git
 sudo git clone --recurse-submodules https://github.com/xct/xc.git
-sudo sudo chown -R $username:$username xc/
+sudo chown -R $username:$username xc/
 cd xc
 GO111MODULE=off go get golang.org/x/sys/...
 GO111MODULE=off go get golang.org/x/text/encoding/unicode
@@ -440,20 +498,11 @@ GO111MODULE=off go get github.com/hashicorp/yamux
 GO111MODULE=off go get github.com/libp2p/go-reuseport
 python3 build.py
 cd ..
+sudo git clone https://github.com/lgandx/PCredz.git
 
 
 sudo chown -R $username:$username /opt/Tools
 sudo chmod -R 755 /opt/Tools
-
-
-#ropstar (TODO : verify validity after XCT's installation modifications)
-#echo "ICAgICAgICAgICAgICAgICAgICAgXyAgICAgICAgICAgICAgICAKIF8gX18gX19fICBfIF9fICBfX198IHxfIF9fIF8gXyBfXyAgICAKfCAnX18vIF8gXHwgJ18gXC8gX198IF9fLyBfYCB8ICdfX3wgICAKfCB8IHwgKF8pIHwgfF8pIFxfXyBcIHx8IChffCB8IHxfIF8gXyAKfF98ICBcX19fL3wgLl9fL3xfX18vXF9fXF9fLF98XyhffF98XykKICAgICAgICAgIHxffCAgICAgICAgICAgICAgICAgICAgICAgICA=" |base64 -d
-#sleep 2
-#cd
-#git clone https://github.com/BlWasp/setupRopstar.git
-#cd setupRopstar
-#chmod +x ./setup.sh
-#./setup.sh
 
 
 #gef
@@ -462,3 +511,7 @@ cd
 sleep 2
 wget -O ~/.gdbinit-gef.py -q https://github.com/hugsy/gef/raw/master/gef.py
 echo source ~/.gdbinit-gef.py >> ~/.gdbinit
+
+
+sudo apt autoremove
+echo "X19fX19fIF8gICAgICAgXyAgICAgXyAgICAgICAgICAgICAgXyAgIF8gCnwgIF9fXyhfKSAgICAgKF8pICAgfCB8ICAgICAgICAgICAgfCB8IHwgfAp8IHxfICAgXyBfIF9fICBfIF9fX3wgfF9fICAgX19fICBfX3wgfCB8IHwKfCAgX3wgfCB8ICdfIFx8IC8gX198ICdfIFwgLyBfIFwvIF9gIHwgfCB8CnwgfCAgIHwgfCB8IHwgfCBcX18gXCB8IHwgfCAgX18vIChffCB8IHxffApcX3wgICB8X3xffCB8X3xffF9fXy9ffCB8X3xcX19ffFxfXyxffCAoXyk=" |base64 -d
