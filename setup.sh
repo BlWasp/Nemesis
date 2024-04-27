@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "WARNING! BloodHound CE won't be installed because the docker installation never returns the hand and blocks the rest of the script."
+echo "Think about installing it manually when this script will finish: curl -L https://ghst.ly/getbhce | sudo docker compose -f - up"
+echo "Additionally, think about cloning and compiling CoercedPotato manually, the best potato! -> https://github.com/Prepouce/CoercedPotato"
 echo "Enter the user who will use this installation"
 read username
 echo "Will you use this installation for pentest or CTF ? CTF choice will install additionnal tools for pwn, stego, forensics... (pentest/ctf)"
@@ -14,8 +17,8 @@ sleep 2
 sudo apt update --fix-missing
 sudo apt dist-upgrade
 #go
-curl -O https://dl.google.com/go/go1.20.5.linux-amd64.tar.gz
-rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.5.linux-amd64.tar.gz
+curl -O https://dl.google.com/go/go1.22.2.linux-amd64.tar.gz
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.22.2.linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
 #gem
 sudo apt -y install gem
@@ -44,7 +47,23 @@ sudo apt -y install python3.12-venv
 sudo apt -y install seahorse
 sudo apt -y install terminator
 sudo apt -y install rlwrap
+
+#Docker and Docker compose install
+# Add Docker's official GPG key
+sudo apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+# Add the repository to Apt sources
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  bookworm stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
 sudo apt -y install docker docker.io
+sudo apt -y install docker-compose-plugin
+
 sudo apt -y install mingw-w64
 sudo apt -y install ewf-tools
 sudo apt -y install squidclient
@@ -66,11 +85,13 @@ fi
 #Microsoft stuff
 sudo apt purge crackmapexec
 sudo apt purge python3-impacket
+#Install neo4j 4.X instead of 5.X to avoid performance issues
 wget -O - https://debian.neo4j.com/neotechnology.gpg.key | sudo apt-key add -
-echo 'deb https://debian.neo4j.com stable latest' | sudo tee -a /etc/apt/sources.list.d/neo4j.list
+echo 'deb https://debian.neo4j.com stable 4' | sudo tee /etc/apt/sources.list.d/neo4j.list > /dev/null
 sudo apt update
 sudo apt -y install apt-transport-https
 sudo apt -y install neo4j
+#BloodHound Legacy, the CE version must be installed manually
 sudo apt -y install bloodhound
 #Kerberos and NTLM
 sudo apt install -y libkrb5-dev krb5-user libpam-krb5 libpam-ccreds gss-ntlmssp
@@ -125,9 +146,17 @@ pipx install coercer
 pipx install masky
 pip3 uninstall lsassy
 pipx install lsassy
+pipx install git+https://github.com/Pennyw0rth/NetExec
+pipx install certsync
+pipx install donpapi
+pipx install dploot
+pipx install krbjack
+pipx install certipy-ad
+pipx install git+https://github.com/synacktiv/GPOddity
 
 #Web stuff
 pip3 install pycryptodomex
+pipx install bypass-url-parser
 
 if [ "$usage" = "ctf" ]; then
 	#PWN stuff
@@ -162,12 +191,18 @@ if [ "$usage" = "ctf" ]; then
 	sudo gem install one_gadget
 fi
 
+
 #go packages
 echo "ICBfXyBfICBfX18gICAgICAgCiAvIF9gIHwvIF8gXCAgICAgIAp8IChffCB8IChfKSB8IF8gXyAKIFxfXywgfFxfX18oX3xffF8pCiB8X19fLyAgICAgICAgICAgIA==" |base64 -d
 sleep 2
 go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 go install github.com/OJ/gobuster/v3@latest
 go install github.com/drk1wi/Modlishka@latest
+go install -v github.com/Hackmanit/TInjA@latest
+go install github.com/denandz/sourcemapper@latest
+go install github.com/g0ldencybersec/CloudRecon@latest
+go install github.com/bitquark/shortscan/cmd/shortscan@latest
+go install github.com/neex/phuip-fpizdam@latest
 
 #echo "docker http3..."
 #docker run -it --rm ymuski/curl-http3 curl -ILv https://10.10.10.186/ --http3
@@ -194,18 +229,6 @@ pip3 install -r requirements.txt
 sudo pip3 install .
 cd ..
 
-echo "CrackMapExec"
-sudo git clone https://github.com/mpgn/CrackMapExec.git
-cd CrackMapExec
-poetry install
-cd ..
-
-echo "DonPAPI"
-sudo git clone https://github.com/login-securite/DonPAPI.git
-cd DonPAPI
-pip3 install -r requirements.txt 
-cd ..
-
 echo "Recon tools"
 sudo git clone https://github.com/ropnop/windapsearch.git
 sudo git clone https://github.com/411Hall/JAWS.git
@@ -223,6 +246,12 @@ sudo git clone https://github.com/aniqfakhrul/powerview.py.git
 cd powerview.py
 pipx install .
 cd ..
+
+if [ "$usage" = "pentest" ]; then
+	sudo git clone https://github.com/byt3bl33d3r/ItWasAllADream
+	cd ItWasAllADream && sudo docker build -t itwasalladream .
+	cd ..
+fi
 
 echo "Brute Force tools"
 curl -s https://api.github.com/repos/ropnop/kerbrute/releases/latest |grep "browser_download_url.*linux_amd64" | cut -d : -f 2,3 | tr -d \" | sudo wget -qi - -O kerbrute
@@ -282,7 +311,6 @@ sudo git clone https://github.com/dirkjanm/PKINITtools
 cd PKINITtools
 pip3 install -r requirements.txt
 cd ..
-pipx install certipy-ad
 
 echo "Obfuscation tools"
 sudo git clone https://github.com/CBHue/PyFuscation.git
@@ -301,10 +329,14 @@ cd Freeze.rs
 cargo build --release
 cd ..
 
-echo "Specific tools : SQL/SCCM/WSUS/Backup"
+echo "Specific tools: SQL/SCCM/WSUS/Backup"
 sudo git clone https://github.com/NetSPI/PowerUpSQL.git
 #Personal fork with CMScripts deployement (PR still open)
 sudo git clone https://github.com/BlWasp/PowerSCCM.git
+sudo git clone https://github.com/garrettfoster13/sccmhunter.git
+cd sccmhunter
+pip3 install -r requirements.txt
+cd ..
 sudo git clone https://github.com/GoSecure/pywsus.git
 sudo git clone https://github.com/giuliano108/SeBackupPrivilege.git
 
@@ -321,6 +353,15 @@ cd PrtToCert
 pip3 install -r requirements.txt
 cd ..
 sudo git clone https://github.com/morRubin/AzureADJoinedMachinePTC.git
+sudo git clone https://github.com/0xZDH/o365spray.git
+cd o365spray
+pip3 install -r requirements.txt
+pip3 install .
+cd ..
+sudo git clone https://github.com/yuyudhn/AzSubEnum.git
+cd AzSubEnum
+pip3 install -r requirements.txt
+cd ..
 
 echo "PowerShell tools compilation"
 sudo cp -r /usr/share/windows-resources/powersploit ./
@@ -338,6 +379,9 @@ sudo git clone https://github.com/Ridter/noPac.git
 sudo git clone https://github.com/ly4k/SpoolFool.git
 sudo git clone https://github.com/ly4k/PrintNightmare.git
 sudo git clone https://github.com/SecuraBV/CVE-2020-1472.git
+
+echo "Add user DLL"
+sudo git clone https://github.com/newsoft/adduser.git
 
 
 #Linux
@@ -368,14 +412,15 @@ sudo git clone https://github.com/arthaud/git-dumper.git
 sudo git clone https://github.com/mxrch/webwrap.git
 sudo git clone https://github.com/WhiteWinterWolf/wwwolf-php-webshell.git
 sudo git clone https://github.com/epinna/tplmap.git
+sudo git clone https://github.com/vladko312/SSTImap.git
+sudo git clone https://github.com/CerTusHack/Citrix-bleed-Xploit.git
 sudo git clone https://github.com/lobuhi/byp4xx.git
 cd byp4xx
 go build byp4xx.go
 cd ..
-sudo git clone https://github.com/laluka/bypass-url-parser.git
-cd bypass-url-parser
-pip3 install -r requirements.txt
-cd ..
+sudo git clone https://github.com/milan277/RTSPBruter.git
+sudo git clone https://github.com/0xbigshaq/firepwn-tool.git
+sudo git clone https://github.com/defparam/smuggler.git
 if [ "$usage" = "ctf" ]; then
 	sudo git clone https://github.com/AonCyberLabs/PadBuster.git
 	sudo git clone https://github.com/cnotin/SplunkWhisperer2.git
@@ -469,7 +514,20 @@ if [ "$usage" = "pentest" ]; then
 	cd ..
 fi
 
+
+#OSINT tools
+echo "ICAgX19fICBfXyAgIF9fX19fICAgIF9fICBfX19fXyAgIAogIC9fX19cLyBfXCAgXF8gICBcL1wgXCBcL19fICAgXCAgCiAvLyAgLy9cIFwgICAgLyAvXC8gIFwvIC8gIC8gL1wvICAKLyBcXy8vIF9cIFwvXC8gL18vIC9cICAvICAvIC8gXyBfIApcX19fLyAgXF9fL1xfX19fL1xfXCBcLyAgIFwoX3xffF8pCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=" |base64 -d
+sleep 2
+sudo mkdir OSINT
+cd OSINT
+sudo git clone https://github.com/l4rm4nd/LinkedInDumper.git
+cd LinkedInDumper
+pip3 install -r requirements.txt
+cd ..
+
+
 #General tools
+cd ..
 echo "ICAgX19fICAgICAgICAgICAgICAgICAgICAgICAgICBfICAgXyAgICAgICAgICAgICAgXyAgICAgICAgICAgCiAgLyBfIFxfX18gXyBfXyAgIF9fXyBfIF9fIF9fIF98IHwgfCB8XyBfX18gICBfX18gfCB8X19fICAgICAgIAogLyAvX1wvIF8gXCAnXyBcIC8gXyBcICdfXy8gX2AgfCB8IHwgX18vIF8gXCAvIF8gXHwgLyBfX3wgICAgICAKLyAvX1xcICBfXy8gfCB8IHwgIF9fLyB8IHwgKF98IHwgfCB8IHx8IChfKSB8IChfKSB8IFxfXyBcXyBfIF8gClxfX19fL1xfX198X3wgfF98XF9fX3xffCAgXF9fLF98X3wgIFxfX1xfX18vIFxfX18vfF98X19fKF98X3xfKQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=" |base64 -d
 sleep 2
 sudo git clone https://github.com/RUB-NDS/PRET.git

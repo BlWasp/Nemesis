@@ -17,6 +17,10 @@ At the beginning of the install, the script will ask for `pentest/ctf` :
 
 If you don't want to use some tools, you just have to comment the lines.
 
+**BloodHound CE won't be installed** because the docker installation never returns the hand and blocks the rest of the script (and the initial password is lost somewhere in the infinite output). Think about installing it manually when this script will finish: `curl -L https://ghst.ly/getbhce | sudo docker compose -f - up`
+
+Additionally, think about cloning and compiling [CoercedPotato](https://github.com/Prepouce/CoercedPotato) manually, the best potato!
+
 ## Future
 
 I will update it regularly when I discover new tools.
