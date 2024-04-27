@@ -402,6 +402,9 @@ echo "IF9fICAgIF9fICAgICBfICAgICAgICAgIAovIC8gL1wgXCBcX19ffCB8X18gICAgICAgClwgXC
 sleep 2
 sudo mkdir Web
 cd Web
+sudo mkdir code_behind
+sudo mv $path/Tools/Web/c_exec.aspx $path/Tools/Web/c_exec.cs ./code_behind
+sudo mv $path/Tools/Web/interact_firestore.js ./
 sudo git clone https://github.com/cisagov/log4j-scanner.git
 sudo git clone --depth 1 https://github.com/drwetter/testssl.sh.git
 sudo git clone https://github.com/ticarpi/jwt_tool.git
